@@ -3,7 +3,7 @@ import { BsSearch, BsBell } from "react-icons/bs";
 
 export default function Header() {
   return (
-    <header className="bg-neutral-800 px-4 py-5 flex gap-4 items-center">
+    <header className="bg-neutral-800 px-3 py-5 flex gap-4 items-center justify-between">
       <Link href='/search' className="flex grow">
         <input
           className="grow bg-zinc-900 p-3"
