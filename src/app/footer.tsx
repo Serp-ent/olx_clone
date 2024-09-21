@@ -1,37 +1,54 @@
 // TODO: add filled icons for chosen item
 // TODO: this footer should appear only when user scrolls up
-import Link from "next/link";
-import { BsHouse, BsHeart, BsPlusCircle, BsPerson, BsChat } from "react-icons/bs";
 
+'use client';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  BsHouse, BsHouseFill,
+  BsHeart, BsHeartFill,
+  BsPlusCircle, BsPlusCircleFill,
+  BsPerson, BsPersonFill,
+  BsChat, BsChatFill,
+} from "react-icons/bs";
+
+const cards = [
+  {
+    title: 'Search',
+    icon: <BsHouse size={18} />,
+    activeIcon: <BsHouseFill size={18} />,
+    href: "/"
+  },
+  {
+    title: 'Observed',
+    icon: <BsHeart size={18} />,
+    activeIcon: <BsHeartFill size={18} />,
+    href: "/observed"
+  },
+  {
+    title: 'Add',
+    icon: <BsPlusCircle size={18} />,
+    activeIcon: <BsPlusCircleFill size={18} />,
+    href: '/add'
+  },
+  {
+    title: 'Messages',
+    icon: <BsChat size={18} />,
+    activeIcon: <BsChatFill size={18} />,
+    href: '/messages',
+  },
+  {
+    title: 'Account',
+    icon: <BsPerson size={18} />,
+    activeIcon: <BsPersonFill size={18} />,
+    href: '/profile'
+  },
+];
 
 export default function Footer() {
-  const cards = [
-    {
-      title: 'Search',
-      icon: <BsHouse size={18} />,
-      href: "/search"
-    },
-    {
-      title: 'Observed',
-      icon: <BsHeart size={18} />,
-      href: "/observed"
-    },
-    {
-      title: 'Add',
-      icon: <BsPlusCircle size={18} />,
-      href: '/add'
-    },
-    {
-      title: 'Messages',
-      icon: <BsChat size={18} />,
-      href: '/messages',
-    },
-    {
-      title: 'Account',
-      icon: <BsPerson size={18} />,
-      href: '/profile'
-    },
-  ];
+  const pathname = usePathname();
+
+  console.log('pathname:', pathname);
 
   return (
     <footer className="py-1 pt-2 px-4 bg-zinc-900">
@@ -45,7 +62,10 @@ export default function Footer() {
               href={item.href}
               className="flex flex-col justify-center items-center gap-1"
             >
-              {item.icon}
+              {(pathname === item.href)
+                ? <span>{item.activeIcon}</span>
+                : <span>{item.icon}</span>
+              }
               <h3>{item.title}</h3>
             </Link>
           </li>
