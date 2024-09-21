@@ -1,14 +1,22 @@
 import { BsHeart } from "react-icons/bs";
 import { Product } from '@prisma/client';
+import Link from "next/link";
 
 
+// TODO: add carousel for multiple images
+// TODO: add localization of offer
+// TODO: add tags
+// TODO: add info about user
+// TODO: add user stars to indicate opinion
+// TODO: add option to display offer only from one person
 export default function Card({ item }: { item: Product }) {
   return (
-    <div
+    <Link
       key={item.id}
-      className="bg-gray-400 aspect-[3/4] rounded"
+      href={`/offer/${item.id}`}
+      className="bg-gray-400"
     >
-      <div className="bg-red-300 h-2/3 grid place-content-center text-2xl font-bold">
+      <div className="bg-red-300 grid place-content-center text-2xl font-bold">
         photo
       </div>
 
@@ -25,6 +33,6 @@ export default function Card({ item }: { item: Product }) {
 
       </section>
 
-    </div>
+    </Link>
   )
 }

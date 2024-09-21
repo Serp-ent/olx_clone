@@ -50,7 +50,7 @@ export default async function Home() {
           className="font-bold text-xl pb-4">
           Chosen for you
         </h3>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           {items.map((item) => <Card key={item.id} item={item}/>)}
         </div>
       </section>

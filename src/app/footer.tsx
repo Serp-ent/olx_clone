@@ -48,8 +48,6 @@ const cards = [
 export default function Footer() {
   const pathname = usePathname();
 
-  console.log('pathname:', pathname);
-
   return (
     <footer className="py-1 pt-2 px-4 bg-zinc-900">
       <ul className="flex justify-between">
