@@ -6,13 +6,13 @@ export default function Header() {
     <header className="bg-neutral-800 px-3 py-5 flex gap-4 items-center justify-between">
       <Link href='/search' className="flex grow">
         <input
-          className="grow bg-zinc-900 p-3"
+          className="w-full p-2 bg-zinc-900"
           placeholder="Search for..."
         />
 
-        <div className="grow-0 bg-emerald-950 p-3 grid content-center" >
+        <div className="grow-0 bg-emerald-950 p-3 grid content-center">
           <button>
-            <BsSearch size={24} />
+            <BsSearch size={22} />
           </button>
         </div>
       </Link>
@@ -20,7 +20,7 @@ export default function Header() {
       <button>
         <BsBell
           className="grow-0"
-          size={24}
+          size={22}
         />
       </button>
     </header>

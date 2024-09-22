@@ -20,11 +20,11 @@ export default function Card({ item }: { item: ProductWithImages }) {
     <Link
       key={item.id}
       href={`/offer/${item.id}`}
-      className="bg-gray-400"
+      className="bg-white text-emerald-950"
     >
       {(item.images.length > 0) ? (
-        <div 
-        className="grid place-content-center">
+        <div
+          className="grid place-content-center">
           {/* TODO: fix images */}
           <Image
             src={item.images[0].url}
@@ -48,9 +48,19 @@ export default function Card({ item }: { item: ProductWithImages }) {
           {/* TODO: adding to favorites / observed */}
           <BsHeart />
         </div>
-        <p className="text-xs">
-          {item.description}
+
+        <p className="font-bold">
+          {item.price.toString()} pln
         </p>
+
+        <div>
+          <p className="text-xs">
+            {item.createdAt.toLocaleDateString()}
+          </p>
+          <p className="text-xs">
+            {item.createdAt.toLocaleTimeString()}
+          </p>
+        </div>
 
       </section>
 
