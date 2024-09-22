@@ -2,6 +2,7 @@ import Link from "next/link";
 import db from '@/app/lib/prisma';
 import { BsHeart } from "react-icons/bs";
 import Card from "./card";
+import Image from "next/image";
 
 export default async function Home() {
   // TODO: improve style
@@ -34,9 +35,22 @@ export default async function Home() {
                   key={category.id}
                   className="flex flex-col items-center gap-2"
                 >
-                  <div className="bg-red-300 rounded-full w-24 h-24 text-3xl grid place-content-center ">
-                    {category.id}
-                  </div>
+                  {/* TODO: fix hardcoded size */}
+                  {/* TODO: link to categories and its items */}
+                  {(category.imageUrl != null) ? (
+                    <div className="bg-red-300 rounded-full overflow-hidden w-24 h-24 text-3xl grid place-content-center ">
+                      <Image
+                        src={category.imageUrl}
+                        alt={category.name + 'category photo'}
+                      width={100}
+                      height={100}
+                      />
+                    </div>
+                  ) : (
+                    <div className="bg-emerald-950 text-sm overflow-hidden rounded-full w-24 h-24 grid place-content-center text-center ">
+                      {category.name}
+                    </div>
+                  )}
                   <h4 className="text-sm">{category.name}</h4>
                 </li>
               ))
@@ -51,9 +65,9 @@ export default async function Home() {
           Chosen for you
         </h3>
         <div className="grid grid-cols-2 gap-3">
-          {items.map((item) => <Card key={item.id} item={item}/>)}
+          {items.map((item) => <Card key={item.id} item={item} />)}
         </div>
       </section>
-    </main>
+    </main >
   );
 }

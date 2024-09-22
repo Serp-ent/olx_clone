@@ -5,8 +5,14 @@ const prisma = new PrismaClient();
 async function main() {
   // Define the categories to be pushed into the database
   const categories = [
-    { name: 'Electronics' },
-    { name: 'Clothing & Fashion' },
+    {
+      name: 'Electronics',
+      imageUrl: '/images/categories/electronic.png'
+    },
+    {
+      name: 'Clothing & Fashion',
+      imageUrl: '/images/categories/clothing.png'
+    },
     { name: 'Home & Kitchen' },
     { name: 'Beauty & Personal Care' },
     { name: 'Sports & Outdoors' },
@@ -14,7 +20,11 @@ async function main() {
     { name: 'Books & Stationery' },
     { name: 'Automotive' },
     { name: 'Health & Wellness' },
-    { name: 'Pets' },
+    {
+      name: 'Pets',
+      imageUrl: '/images/categories/pets.jpeg'
+
+    },
     { name: 'Groceries & Gourmet Food' },
     { name: 'Furniture' },
     { name: 'Office Supplies' },
