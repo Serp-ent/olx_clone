@@ -77,7 +77,6 @@ export default async function AddPage() {
     <main className="p-2 bg-">
       <form
         action={create}
-        method="POST"
         className="flex flex-col p-4 gap-4"
       >
         {inputs.map((input, i) => (
