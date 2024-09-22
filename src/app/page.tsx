@@ -1,15 +1,15 @@
 import Link from "next/link";
 import db from '@/app/lib/prisma';
-import { BsHeart } from "react-icons/bs";
-import Card from "./card";
 import Image from "next/image";
+import ItemsGrid from "./itemsGrid";
+import { Suspense } from "react";
+import ItemsGridLoading from "./itemsGridLoading";
 
 export default async function Home() {
   // TODO: improve style
   // TODO: fetch from db
   // TODO: provide infinite scrolling for newly added items
 
-  const items = await db.product.findMany();
   const categories = await db.category.findMany();
 
   return (
@@ -42,8 +42,8 @@ export default async function Home() {
                       <Image
                         src={category.imageUrl}
                         alt={category.name + 'category photo'}
-                      width={100}
-                      height={100}
+                        width={100}
+                        height={100}
                       />
                     </div>
                   ) : (
@@ -59,15 +59,9 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="p-4 bg-emerald-950 grow">
-        <h3
-          className="font-bold text-xl pb-4">
-          Chosen for you
-        </h3>
-        <div className="grid grid-cols-2 gap-3">
-          {items.map((item) => <Card key={item.id} item={item} />)}
-        </div>
-      </section>
+      <Suspense fallback=<ItemsGridLoading />>
+        <ItemsGrid />
+      </Suspense>
     </main >
   );
 }

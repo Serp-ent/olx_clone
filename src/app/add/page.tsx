@@ -87,7 +87,7 @@ export default async function AddPage() {
           <select
             id='category'
             name='category'
-            className='bg-neutral-800 px-2 py-1 rounded'
+            className='bg-neutral-800 px-2 py-1 rounded w-1/2'
           >
             {categories.map((category) => (
               <option
