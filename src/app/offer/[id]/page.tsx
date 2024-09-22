@@ -1,7 +1,7 @@
 import Image from "next/image";
 import db from '@/app/lib/prisma';
 import { notFound } from "next/navigation";
-import { BsFlag } from "react-icons/bs";
+import { BsFlag, BsHeart } from "react-icons/bs";
 
 export default async function OfferPage({ params }:
   { params: { id: string } }
@@ -31,7 +31,14 @@ export default async function OfferPage({ params }:
           width={100}
         />
       </section>
-      <section className="bg-gray-100 grow text-emerald-950 p-4 rounded-t-lg">
+      <section className="bg-gray-100 grow text-emerald-950 p-4 rounded-t-lg relative">
+        <button
+          className="absolute right-10 top-0 -translate-y-1/2 p-2 border bg-red-200 rounded-full"
+        >
+          {/* TODO: play animation on added */}
+          <BsHeart color="red" size={20} />
+        </button>
+
         <h6 className="text-xs">
           {item.createdAt.toLocaleTimeString()}
         </h6>

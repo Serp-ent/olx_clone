@@ -14,8 +14,6 @@ type ProductWithImages = Product & {
 // TODO: add user stars to indicate opinion
 // TODO: add option to display offer only from one person
 export default function Card({ item }: { item: ProductWithImages }) {
-  console.log(item);
-
   return (
     <Link
       key={item.id}
