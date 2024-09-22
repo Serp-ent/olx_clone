@@ -1,6 +1,8 @@
 import db from '@/app/lib/prisma'
+import fs from 'fs';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import path from 'path';
 
 const inputs = [
   { name: 'name', type: 'text', },
@@ -11,7 +13,7 @@ const inputs = [
 export default async function AddPage() {
   // TODO: add validation using zod
   async function create(formData: FormData) {
-    'use server'; // ensures this function is treated as a server action in Next.js
+    'use server';
 
     const form = {
       name: formData.get('name')?.toString() || '',
@@ -22,12 +24,13 @@ export default async function AddPage() {
 
     const price = parseFloat(form.price);
     const categoryId = parseInt(form.categoryId, 10);
+    const photoFile = formData.get('photo') as File;
 
-    if (!form.name || isNaN(price) || isNaN(categoryId)) {
+    if (!form.name || isNaN(price) || isNaN(categoryId) || !photoFile) {
       throw new Error('Invalid form data');
     }
 
-    await db.product.create({
+    const newProduct = await db.product.create({
       data: {
         name: form.name,
         description: form.description,
@@ -36,7 +39,35 @@ export default async function AddPage() {
       },
     });
 
-    // TODO: should redirect to newly created page
+    if (photoFile) {
+      const buffer = await photoFile.arrayBuffer();
+      const photoBuffer = Buffer.from(buffer);
+
+      const destinationPath = path.join(
+        process.cwd(),
+        'public',
+        'items',
+        newProduct.id.toString()
+      );
+
+      // Ensure the directory exists
+      if (!fs.existsSync(destinationPath)) {
+        fs.mkdirSync(destinationPath, { recursive: true });
+      }
+
+      const filePath = path.join(destinationPath, photoFile.name);
+
+      fs.writeFileSync(filePath, photoBuffer);
+
+      const imageUrl = `/items/${newProduct.id}/${photoFile.name}`;
+      await db.productImage.create({
+        data: {
+          url: imageUrl,
+          productId: newProduct.id,
+        },
+      });
+    }
+
     revalidatePath('/');
     redirect('/');
   }
@@ -98,6 +129,14 @@ export default async function AddPage() {
               </option>
             ))}
           </select>
+        </div>
+
+        {/* TODO: handle multiple images */}
+        <div className='flex flex-col'>
+          <label htmlFor="photo">
+            Photo:
+          </label>
+          <input type="file" name="photo" />
         </div>
 
         <div className="flex justify-end">

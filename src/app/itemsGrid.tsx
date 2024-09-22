@@ -2,7 +2,11 @@ import db from '@/app/lib/prisma';
 import Card from './card';
 
 export default async function ItemsGrid() {
-  const items = await db.product.findMany();
+  const items = await db.product.findMany({
+    include: {
+      images: true
+    }
+  });
 
   return (
     <section className="p-4 bg-emerald-950 grow">
