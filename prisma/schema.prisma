@@ -13,6 +13,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now())
+}
+
 // TODO: there should be Profile and userProfile
 // TODO: maybe there should be somekind of main image
 model Product {

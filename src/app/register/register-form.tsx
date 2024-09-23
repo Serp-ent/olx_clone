@@ -1,18 +1,19 @@
-'use client';
-
 import Link from "next/link";
-import { authenticate } from "../lib/actions";
+import { registerUser } from "../lib/actions";
 import { useFormState } from "react-dom";
 
 export default function LoginForm() {
-  const [errorMessage, formAction, isPending] = useFormState(
-    authenticate, undefined,
-  );
-
+  // const [errorMessage, formAction, isPending] = useFormState(
+  //   registerUser, undefined,
+  // );
 
   return (
-    <form className="flex flex-col gap-4 p-4 text-emerald-950" action={formAction}>
-      <h1 className="text-xl font-bold">Login</h1>
+    <form
+      // TODO: add form action
+      action={registerUser}
+      className="flex flex-col gap-4 p-4 text-emerald-950"
+    >
+      <h1 className="text-xl font-bold">Sign Up</h1>
 
       <div className="flex flex-col gap-2">
         <label htmlFor="email" className="font-semibold">
@@ -21,8 +22,6 @@ export default function LoginForm() {
         <input
           id="email"
           name="email"
-          // TODO: change to email
-          // TODO: add client side validation
           type="name"
           required
           className="border border-gray-300 rounded-md p-2 focus:outline-none focus:border-emerald-700"
@@ -44,22 +43,33 @@ export default function LoginForm() {
         />
       </div>
 
+      <div className="flex flex-col gap-2">
+        <label htmlFor="confirmPassword" className="font-semibold">
+          Confirm Password
+        </label>
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          required
+          className="border border-gray-300 rounded-md p-2 focus:outline-none focus:border-emerald-700"
+          placeholder="Confirm your password"
+        />
+      </div>
+
       <button
         type="submit"
-        disabled={isPending}
         className="mt-4 px-4 py-2 bg-emerald-950 text-white rounded-md disabled:opacity-50"
       >
-        {isPending ? 'Logging in...' : 'Log in'}
+        Register
+        {/* {isPending ? 'Registering...' : 'Sign Up'} */}
       </button>
 
-      {errorMessage && (
-        <p className="text-sm text-red-500 mt-2">{errorMessage}</p>
-      )}
 
       <p className="text-sm mt-4">
-        Don't have an account?{' '}
-        <Link href="/register" className="text-emerald-700 underline">
-          Register now
+        Already have an account?{' '}
+        <Link href="/login" className="text-emerald-700 underline">
+          Log in
         </Link>
       </p>
     </form>

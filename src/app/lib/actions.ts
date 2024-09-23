@@ -2,6 +2,8 @@
 
 import { AuthError } from "next-auth";
 import { signIn } from "../auth";
+import db from '@/app/lib/prisma';
+import { redirect } from "next/navigation";
 
 export async function authenticate(
   prevState: string | undefined,
@@ -21,4 +23,28 @@ export async function authenticate(
     }
     throw error;
   }
+}
+
+export async function registerUser(
+  // prevState: string | undefined,
+  formData: FormData,
+) {
+  // TODO: add validation using zod
+
+  // TODO: add type
+  const credentials = {
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
+    confirmPassword: formData.get('confirmPassword') as string,
+  };
+
+  await db.user.create({
+    data: {
+      email: credentials.email,
+      password: credentials.password,
+    },
+  });
+
+
+  redirect('/login');
 }
