@@ -1,10 +1,57 @@
 'use server';
 
 import { AuthError } from "next-auth";
-import { signIn } from "../auth";
+import { auth, signIn } from "../auth";
 import db from '@/app/lib/prisma';
 import { redirect } from "next/navigation";
 import { z } from 'zod'
+import { revalidatePath } from "next/cache";
+
+export async function toggleFavorites(productIdStr: string) {
+  const session = await auth();
+  // TODO: refactor
+  if (!session || !session.user || !session.user.email) {
+    return;
+  }
+
+  const user = await db.user.findUnique({
+    where: { email: session?.user?.email },
+    include: { favorites: true }
+  });
+
+  if (!user) {
+    return;
+  }
+
+  const productId = Number(productIdStr);
+  const isFavorited = user.favorites.some((product) => product.id === productId);
+
+  if (isFavorited) {
+    // Remove from favorites
+    console.log('removed from favorites item with id', productIdStr)
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        favorites: {
+          disconnect: { id: productId },
+        },
+      },
+    });
+  } else {
+    // Add to favorites
+    console.log('added to favorites item with id', productIdStr)
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        favorites: {
+          connect: { id: productId },
+        },
+      },
+    });
+  }
+
+  revalidatePath(`/offer/${productIdStr}`);
+}
 
 export async function authenticate(
   prevState: string | undefined,

@@ -1,7 +1,9 @@
 import Image from "next/image";
 import db from '@/app/lib/prisma';
 import { notFound } from "next/navigation";
-import { BsFlag, BsHeart } from "react-icons/bs";
+import { BsFlag, BsHeart, BsHeartFill } from "react-icons/bs";
+import { toggleFavorites } from "@/app/lib/actions";
+import { auth } from "@/app/auth";
 
 export default async function OfferPage({ params }:
   { params: { id: string } }
@@ -18,9 +20,24 @@ export default async function OfferPage({ params }:
     notFound();
   }
 
+  // Fetch the user's favorites
+  const userId = (await auth())?.user?.email; // Replace with the actual user ID from your session/context
+  if (!userId) {
+    // TODO: refactor
+    throw new Error('User not authorized');
+  }
+
+  const userFavorites = await db.user.findUnique({
+    where: { email: userId },
+    include: { favorites: true }
+  });
+
+  const isFavorite = userFavorites?.favorites.some((product) => product.id === item.id);
+
   // TODO: add adding offer to favorites
   {/* TODO: there should be image carousel */ }
   // TODO: the image should fill whole width
+  const toggleFavoritesId = toggleFavorites.bind(null, params.id);
   return (
     <main className="grid grid-rows-1">
       <section className="grid place-content-center">
@@ -32,12 +49,20 @@ export default async function OfferPage({ params }:
         />
       </section>
       <section className="bg-gray-100 grow text-emerald-950 p-4 rounded-t-lg relative">
-        <button
+        <form
           className="absolute right-10 top-0 -translate-y-1/2 p-2 border bg-red-200 rounded-full"
+          action={toggleFavoritesId}
         >
           {/* TODO: play animation on added */}
-          <BsHeart color="red" size={20} />
-        </button>
+          <button>
+            {isFavorite ? (
+              <BsHeartFill color="red" size={20} />
+            ) : (
+              <BsHeart color="red" size={20} />
+            )}
+          </button>
+
+        </form>
 
         <h6 className="text-xs">
           {item.createdAt.toLocaleTimeString()}

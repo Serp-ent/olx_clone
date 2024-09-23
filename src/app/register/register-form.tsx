@@ -10,6 +10,7 @@ export default function RegisterForm() {
     formAction,
     isPending,
   ] = useFormState(registerUser, { error: undefined, errors: {} });
+  // TODO: fix
 
   return (
     <form
@@ -59,6 +60,10 @@ export default function RegisterForm() {
           placeholder="Confirm your password"
         />
       </div>
+
+      {/* TODO: should redirect when logged in from login/register */}
+      {/* TODO: should redirect when not logged in from logout route */}
+      {/* TODO: should redirect when not logged in from protected routes */}
 
       {errorMessage && (
         <div className="text-sm text-red-500">

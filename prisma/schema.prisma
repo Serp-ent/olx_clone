@@ -14,15 +14,16 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String    @id @default(uuid())
+  email     String    @unique
   name      String?
   password  String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  favorites Product[] @relation("UserFavorites")
 }
 
 // TODO: there should be Profile and userProfile
-// TODO: maybe there should be somekind of main image
+// TODO: maybe there should be some kind of main image
 model Product {
   id          Int            @id @default(autoincrement())
   name        String         @db.VarChar(255)
@@ -33,6 +34,7 @@ model Product {
   categoryId  Int
   category    Category       @relation(fields: [categoryId], references: [id])
   images      ProductImage[] // Related product images (many-to-one relation)
+  favoritedBy User[]         @relation("UserFavorites")
 }
 
 // TODO: add category image
