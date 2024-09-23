@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from './app/auth';
 
 
-const protectedRoutes = ['/logout', '/protected', '/profile']
+const protectedRoutes = ['/logout', '/protected', '/profile', '/observed']
 const publicRoutes = ['/', '/login',]
 
 export default async function middleware(req: NextRequest) {
