@@ -1,16 +1,19 @@
+'use client';
+
 import Link from "next/link";
-import { registerUser } from "../lib/actions";
+import { authenticate, registerUser } from "../lib/actions";
 import { useFormState } from "react-dom";
 
-export default function LoginForm() {
-  // const [errorMessage, formAction, isPending] = useFormState(
-  //   registerUser, undefined,
-  // );
+export default function RegisterForm() {
+  const [
+    errorMessage,
+    formAction,
+    isPending,
+  ] = useFormState(registerUser, { error: undefined, errors: {} });
 
   return (
     <form
-      // TODO: add form action
-      action={registerUser}
+      action={formAction}
       className="flex flex-col gap-4 p-4 text-emerald-950"
     >
       <h1 className="text-xl font-bold">Sign Up</h1>
@@ -57,14 +60,24 @@ export default function LoginForm() {
         />
       </div>
 
+      {errorMessage && (
+        <div className="text-sm text-red-500">
+          {errorMessage.errors && Object.entries(errorMessage.errors).map(([field, messages]) => (
+            messages.map((msg, index) => (
+              <p key={`${field}-${index}`}>{msg}</p>
+            ))
+          ))}
+          {errorMessage.error && <p>{errorMessage.error}</p>}
+        </div>
+      )}
+
+
       <button
         type="submit"
         className="mt-4 px-4 py-2 bg-emerald-950 text-white rounded-md disabled:opacity-50"
       >
-        Register
-        {/* {isPending ? 'Registering...' : 'Sign Up'} */}
+        {isPending ? 'Registering...' : 'Register'}
       </button>
-
 
       <p className="text-sm mt-4">
         Already have an account?{' '}
