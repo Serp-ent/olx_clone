@@ -9,7 +9,7 @@ export default async function OfferPage({ params }:
   { params: { id: string } }
 ) {
   // TODO: add loading...
-  const item = await db.product.findUnique({
+  const item = await db.item.findUnique({
     where: { id: Number(params.id) },
     include: {
       images: true

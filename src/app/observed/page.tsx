@@ -44,7 +44,7 @@ export default async function ObservedPage() {
             >
               <div className="flex items-center gap-2">
                 <Image
-                  src={item.images.at(0)?.url}
+                  src={item.images.at(0)?.url || ''}
                   alt={item.name}
                   width={50}
                   height={50}

@@ -2,7 +2,7 @@ import db from '@/app/lib/prisma';
 import Card from './card';
 
 export default async function ItemsGrid() {
-  const items = await db.product.findMany({
+  const items = await db.item.findMany({
     include: {
       images: true
     }

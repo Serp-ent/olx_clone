@@ -3,6 +3,7 @@ import fs from 'fs';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import path from 'path';
+import { auth } from '../auth';
 
 const inputs = [
   { name: 'name', type: 'text', },
@@ -14,6 +15,10 @@ const inputs = [
 /* TODO: each category requires their own filters
 e.g. cars have price, model, production date hp etc...
 */
+
+// TODO: change appearance
+// TODO: textarea of description should expand and not be scrollable
+// on multiline input
 
 export default async function AddPage() {
   // TODO: add validation using zod
@@ -35,12 +40,20 @@ export default async function AddPage() {
       throw new Error('Invalid form data');
     }
 
-    const newProduct = await db.product.create({
+    // TODO: the session should contain user id
+    const email = (await auth())!.user!.email!;
+    const user = await db.user.findUnique({ where: { email } });
+    if (!user) {
+      throw new Error('Cannot find user for current session');
+    }
+
+    const newProduct = await db.item.create({
       data: {
         name: form.name,
         description: form.description,
         price, // storing price as a number
         categoryId, // storing categoryId as a number
+        authorId: user.id,
       },
     });
 

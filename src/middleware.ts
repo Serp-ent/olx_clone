@@ -4,7 +4,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from './app/auth';
 
 
-const protectedRoutes = ['/logout', '/protected', '/profile', '/observed']
+// TODO: switch logic so all routes are protected by default
+// and only specify the public ones
+
+// TODO: hash password in db
+const protectedRoutes = [
+  '/logout',
+  '/protected',
+  '/profile',
+  '/observed',
+  '/add',
+]
 const publicRoutes = ['/', '/login',]
 
 export default async function middleware(req: NextRequest) {

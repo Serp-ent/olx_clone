@@ -10,7 +10,7 @@ export default function Item({ item }: { item: ProductWithImages }) {
   // TODO: add button for adding for favorites
   return (
     <Link
-      className="flex h-16 justify-between border rounded-md px-2"
+      className="flex h-24 justify-between border rounded-md p-2"
       href={`/offer/${item.id}`}
     >
       <div className="aspect-square relative">

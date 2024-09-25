@@ -4,13 +4,24 @@ import { notFound } from 'next/navigation';
 
 export default async function Profile(
   { userId }: { userId: string }) {
-  const user = await db.user.findUnique({ where: { id: userId } });
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    include: {
+      _count: {
+        select: {
+          // products: true,
+          favorites: true,
+          products: true,
+        }
+      },
+    }
+  });
   if (!user) {
     return notFound();
   }
 
-  console.log(user);
 
+  console.log(user);
   return (
     <main className="h-full bg-[#f2f3f4] flex flex-col items-center py-10">
       <div className="max-w-4xl w-full bg-white shadow-lg rounded-lg overflow-hidden">
@@ -57,13 +68,13 @@ export default async function Profile(
               </div>
             </div>
 
-            {/* Account Info */}
+            {/* // TODO: these should be links for details */}
             <div>
               <h2 className="text-xl font-semibold text-[#002f6c] mb-4">Account Information</h2>
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
                   <span className="font-semibold">Ads Posted:</span>
-                  <span>TODO:</span>
+                  <span>{user._count.products}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="font-semibold">Items Sold:</span>
@@ -71,7 +82,7 @@ export default async function Profile(
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="font-semibold">Wishlist Items:</span>
-                  <span>TODO:</span>
+                  <span>{user._count.favorites}</span>
                 </div>
               </div>
             </div>

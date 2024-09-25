@@ -2,7 +2,7 @@ import db from '@/app/lib/prisma'
 import Item from './item';
 
 export default async function ItemsList({ query }: { query: string }) {
-  const items = await db.product.findMany({
+  const items = await db.item.findMany({
     where: {
       name: {
         contains: query.toLowerCase(),
