@@ -18,7 +18,7 @@ export default function SearchPage({
 
   return (
     <main className="text-emerald-950 p-4">
-      <Search placeholder="search for..." />
+      {/* <Search placeholder="search for..." /> */}
 
       {/* // TODO: wrap it in suspense to show loading... */}
       <ItemsList query={query} />
