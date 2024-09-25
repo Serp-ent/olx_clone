@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { BsSearch, BsBell } from "react-icons/bs";
 
+// TODO: use tailwind variables
+// Primary color: #002f34 (Dark Green)
+// Secondary color: #002f6c (Dark Blue)
+// Accent color: #23b2b0 (Turquoise)
+// Background color: #f2f3f4 (Light Gray)
+
 export default function Header() {
   return (
     <header className="bg-neutral-800 px-3 py-5 flex gap-4 items-center justify-between">
