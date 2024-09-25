@@ -7,10 +7,12 @@ import { BsSearch, BsBell } from "react-icons/bs";
 // Accent color: #23b2b0 (Turquoise)
 // Background color: #f2f3f4 (Light Gray)
 
+// TODO: add dropdown from notification bell
+
 export default function Header() {
   return (
     <header className="bg-neutral-800 px-3 py-5 flex gap-4 items-center justify-between">
-      <Link href='/search' className="flex grow">
+      <div className="flex grow">
         <input
           className="w-full p-2 bg-zinc-900"
           placeholder="Search for..."
@@ -21,7 +23,7 @@ export default function Header() {
             <BsSearch size={22} />
           </button>
         </div>
-      </Link>
+      </div>
 
       <button>
         <BsBell

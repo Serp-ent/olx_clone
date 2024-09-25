@@ -10,6 +10,11 @@ const inputs = [
   { name: 'price', type: 'number', },
 ];
 
+
+/* TODO: each category requires their own filters
+e.g. cars have price, model, production date hp etc...
+*/
+
 export default async function AddPage() {
   // TODO: add validation using zod
   async function create(formData: FormData) {
