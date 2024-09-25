@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { BsFlag, BsHeart, BsHeartFill } from "react-icons/bs";
 import { toggleFavorites } from "@/app/lib/actions";
 import { auth } from "@/app/auth";
+import UserShort from "./user";
 
 export default async function OfferPage({ params }:
   { params: { id: string } }
@@ -33,7 +34,6 @@ export default async function OfferPage({ params }:
   });
 
   const isFavorite = userFavorites?.favorites.some((product) => product.id === item.id);
-
   // TODO: add adding offer to favorites
   {/* TODO: there should be image carousel */ }
   // TODO: the image should fill whole width
@@ -109,7 +109,7 @@ export default async function OfferPage({ params }:
         </section>
 
         <section>
-          TODO: There should be user component
+          <UserShort userId={item.authorId} />
         </section>
         {/* <section>
           There should be other offers from user
