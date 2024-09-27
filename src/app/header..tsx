@@ -2,12 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { BsSearch, BsBell } from "react-icons/bs";
 
-// TODO: use tailwind variables
-// Primary color: #002f34 (Dark Green)
-// Secondary color: #002f6c (Dark Blue)
-// Accent color: #23b2b0 (Turquoise)
-// Background color: #f2f3f4 (Light Gray)
-
 // TODO: add dropdown from notification bell
 
 // TODO: clear the input as the user navigates
@@ -23,17 +17,17 @@ export async function searchAction(formData: FormData) {
 
 export default function Header() {
   return (
-    <header className="bg-neutral-800 px-3 py-5 flex gap-4 items-center justify-between">
+    <header className="bg-background px-3 py-5 flex text-white gap-4 items-center justify-between">
       <form
         action={searchAction}
         className="flex grow">
         <input
-          className="w-full p-2 bg-zinc-900"
+          className="w-full px-4 py-2 rounded-l placeholder:text-gray-500"
           name="search"
           placeholder="Search for..."
         />
 
-        <div className="grow-0 bg-emerald-950 p-3 grid content-center">
+        <div className="rounded-r grow-0 bg-primary p-3 grid content-center">
           <button type="submit">
             <BsSearch size={22} />
           </button>
@@ -42,7 +36,7 @@ export default function Header() {
 
       <button>
         <BsBell
-          className="grow-0"
+          className="grow-0 text-primary"
           size={22}
         />
       </button>

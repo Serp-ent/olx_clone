@@ -49,7 +49,7 @@ export default function Footer() {
   const pathname = usePathname();
 
   return (
-    <footer className="py-1 pt-2 px-4 bg-zinc-900">
+    <footer className="py-1 pt-2 px-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1),0_-2px_4px_-1px_rgba(0,0,0,0.06)]">
       <ul className="flex justify-between">
         {cards.map((item, i) =>
           <li

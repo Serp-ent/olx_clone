@@ -30,13 +30,16 @@ export default async function ObservedPage() {
   console.log(userFavorites);
   return (
     <main
-      className="p-4">
+      className="px-4 py-2 ">
+      <h2 className="font-bold text-lg p-2">
+        Observed Items
+      </h2>
       <ul
         className="space-y-2">
         {userFavorites?.favorites.map(item => (
           <li
             key={item.id}
-            className="flex justify-between gap-2 items-center border-2 p-2 border-emerald-950 rounded"
+            className="bg-white flex justify-between gap-2 items-center shadow p-2  rounded"
           >
             <Link
               href={`/offer/${item.id}`}

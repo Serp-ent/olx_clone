@@ -9,7 +9,7 @@ export default async function ItemsGrid() {
   });
 
   return (
-    <section className="p-4 bg-emerald-950 grow">
+    <section className="p-4 grow">
       <h3
         className="font-bold text-xl pb-4">
         Chosen for you

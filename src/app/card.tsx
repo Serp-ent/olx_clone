@@ -18,7 +18,7 @@ export default function Card({ item }: { item: ProductWithImages }) {
     <Link
       key={item.id}
       href={`/offer/${item.id}`}
-      className="bg-white text-emerald-950"
+      className="bg-white text-emerald-950 rounded shadow"
     >
       {(item.images.length > 0) ? (
         <div
@@ -37,7 +37,7 @@ export default function Card({ item }: { item: ProductWithImages }) {
         </div>
       )}
 
-      <section className="p-2 space-y-1">
+      <section className="p-3 space-y-1">
         <div className="flex justify-between items-center">
           <h6 className="text-sm">
             {item.name}

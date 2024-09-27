@@ -92,7 +92,7 @@ export default async function AddPage() {
   const categories = await db.category.findMany();
 
   return (
-    <main className="p-2 bg-">
+    <main className="p-2 bg-white">
       <form
         action={create}
         className="flex flex-col p-4 gap-4"
@@ -104,7 +104,7 @@ export default async function AddPage() {
           >
             <label
               htmlFor={input.name}
-              className=""
+              className="capitalize pb-1 text-sm"
             >
               {input.name}
             </label>
@@ -114,13 +114,13 @@ export default async function AddPage() {
                   type={input.type}
                   name={input.name}
                   id={input.name}
-                  className="bg-neutral-800 p-2 border-emerald-950 border-2 rounded"
+                  className="bg-background p-2 border-emerald-950 border rounded"
                 />
               ) : (
                 <textarea
                   name={input.name}
                   id={input.name}
-                  className="bg-neutral-800 p-2 border-emerald-950 border-2 rounded"
+                  className="bg-background p-2 border-emerald-950 border rounded"
                 />
               )
             }
@@ -128,14 +128,14 @@ export default async function AddPage() {
           </div>
         ))}
 
-        <div className='flex justify-center gap-4'>
-          <label htmlFor='category'>
-            Category:
+        <div className='flex justify-center gap-4 items-center'>
+          <label htmlFor='category' className='capitalize text-sm'>
+            category:
           </label>
           <select
             id='category'
             name='category'
-            className='bg-neutral-800 px-2 py-1 rounded w-1/2'
+            className='bg-background px-2 py-1 rounded w-1/2 text-xs'
           >
             {categories.map((category) => (
               <option
@@ -153,13 +153,13 @@ export default async function AddPage() {
           <label htmlFor="photo">
             Photo:
           </label>
-          <input type="file" name="photo" />
+          <input type="file" name="photo" className='text-xs' />
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-end text-white">
           <button
             type="submit"
-            className="bg-emerald-950 px-3 py-2 rounded"
+            className="bg-primary px-3 py-2 rounded"
           >
             Create
           </button>
