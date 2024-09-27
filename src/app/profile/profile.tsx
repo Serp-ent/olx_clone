@@ -20,14 +20,14 @@ export default async function Profile(
     return notFound();
   }
 
+  // TODO: add star reviews
 
-  console.log(user);
   return (
     <main className="h-full bg-[#f2f3f4] flex flex-col items-center py-10">
       <div className="max-w-4xl w-full bg-white shadow-lg rounded-lg overflow-hidden">
         {/* Profile Header */}
         <div className="bg-[#002f34] p-6 text-white flex items-center">
-          <div className="h-24 w-24 rounded-full overflow-hidden border-4 border-[#23b2b0]">
+          <div className="h-24 aspect-square shrink-0 rounded-full overflow-hidden border-4 border-[#23b2b0]">
             {/* TODO: profile pic */}
             <div className="rounded-full bg-red-300 h-full grid place-content-center">
               TODO: Avatar
@@ -40,7 +40,7 @@ export default async function Profile(
           </div>
           <div className="ml-6">
             <h1 className="text-3xl font-bold">TODO:</h1>
-            <p className="text-[#23b2b0]">
+            <p className="text-xs">
               Member since {user.createdAt.toLocaleDateString()}
             </p>
           </div>

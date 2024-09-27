@@ -21,7 +21,7 @@ export default async function UserShort({ userId }: { userId: string }) {
         <h4 className='font-bold'>
           {user.email}
         </h4>
-        <h6 className='text-sm' >
+        <h6 className='text-xs' >
           Joined at {user.createdAt.toLocaleDateString()}
         </h6>
       </div>

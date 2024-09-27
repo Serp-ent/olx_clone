@@ -3,6 +3,7 @@ import { auth } from "../auth";
 import db from '@/app/lib/prisma';
 import Image from "next/image";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
+import ItemsList from "../components/itemsList";
 
 export default async function ObservedPage() {
   // TODO: add pagination
@@ -27,7 +28,6 @@ export default async function ObservedPage() {
 
   // TODO: use component for items list
   // TODO: allow to add/remove to/from favorites etc
-  console.log(userFavorites);
   return (
     <main
       className="px-4 py-2 ">

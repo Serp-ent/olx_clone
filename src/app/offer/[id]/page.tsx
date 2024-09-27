@@ -1,10 +1,11 @@
 import Image from "next/image";
 import db from '@/app/lib/prisma';
 import { notFound } from "next/navigation";
-import { BsFlag, BsHeart, BsHeartFill } from "react-icons/bs";
+import { BsFlag, BsHeart, BsHeartFill, BsChevronRight } from "react-icons/bs";
 import { toggleFavorites } from "@/app/lib/actions";
 import { auth } from "@/app/auth";
-import UserShort from "./user";
+import UserShort from "../../components/userShort";
+import Link from "next/link";
 
 export default async function OfferPage({ params }:
   { params: { id: string } }
@@ -110,9 +111,32 @@ export default async function OfferPage({ params }:
 
         <section>
           <UserShort userId={item.authorId} />
+
+          <hr className="border border-gray-300 m-2" />
+
+          <div className="grid place-content-center">
+            <Link
+              href={`/profile/${item.authorId}/offers`}
+              className="text-sm flex gap-2 items-center">
+              More from this seller
+              <BsChevronRight />
+            </Link>
+          </div>
+
+          <hr className="border border-gray-300 m-2" />
         </section>
+
         {/* <section>
-          There should be other offers from user
+        // TODO: here should be localization of offer with google maps component
+        </section> */}
+        {/* <section>
+        TODO: other offers from this user
+        </section>
+        Hello
+        offer with id {params.id} */}
+
+        {/* <section>
+        TODO: see also section
         </section>
         Hello
         offer with id {params.id} */}
