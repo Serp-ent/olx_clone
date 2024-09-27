@@ -33,25 +33,29 @@ export default async function Home() {
               categories.map((category) => (
                 <li
                   key={category.id}
-                  className="flex flex-col items-center gap-2"
                 >
-                  {/* TODO: fix hardcoded size */}
-                  {/* TODO: link to categories and its items */}
-                  {(category.imageUrl != null) ? (
-                    <div className="bg-red-300 rounded-full overflow-hidden w-24 h-24 text-3xl grid place-content-center ">
-                      <Image
-                        src={category.imageUrl}
-                        alt={category.name + 'category photo'}
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-                  ) : (
-                    <div className="bg-emerald-950 text-sm overflow-hidden rounded-full w-24 h-24 grid place-content-center text-center ">
-                      {category.name}
-                    </div>
-                  )}
-                  <h4 className="text-sm">{category.name}</h4>
+                  <Link
+                    href={`/categories/${category.id}`}
+                    className="flex flex-col items-center gap-2"
+                  >
+                    {/* TODO: fix hardcoded size */}
+                    {/* TODO: link to categories and its items */}
+                    {(category.imageUrl != null) ? (
+                      <div className="bg-red-300 rounded-full overflow-hidden w-24 h-24 text-3xl grid place-content-center ">
+                        <Image
+                          src={category.imageUrl}
+                          alt={category.name + 'category photo'}
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+                    ) : (
+                      <div className="bg-emerald-950 text-sm overflow-hidden rounded-full w-24 h-24 grid place-content-center text-center ">
+                        {category.name}
+                      </div>
+                    )}
+                    <h4 className="text-sm">{category.name}</h4>
+                  </Link>
                 </li>
               ))
             }
@@ -59,7 +63,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <Suspense fallback=<ItemsGridLoading />>
+      <Suspense fallback={<ItemsGridLoading />}>
         <ItemsGrid />
       </Suspense>
     </main >

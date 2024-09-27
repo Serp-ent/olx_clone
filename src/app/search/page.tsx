@@ -2,8 +2,9 @@
 // TODO: change title for the whole page
 // TODO: add pagination 
 // TODO: add sorting by newest, most hearted, oldest etc...
+// TODO: add notFound if there is no items matching query
 
-import ItemsList from "./itemsList";
+import ItemsList from "../components/itemsList";
 import Search from "./search";
 
 export default function SearchPage({

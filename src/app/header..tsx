@@ -10,6 +10,8 @@ import { BsSearch, BsBell } from "react-icons/bs";
 
 // TODO: add dropdown from notification bell
 
+// TODO: clear the input as the user navigates
+
 export async function searchAction(formData: FormData) {
   'use server';
 

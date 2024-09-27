@@ -1,13 +1,19 @@
 import db from '@/app/lib/prisma'
 import Item from './item';
 
-export default async function ItemsList({ query }: { query: string }) {
+export default async function ItemsList(
+  { query, categoryId }
+    : { query?: string, categoryId?: number }
+) {
   const items = await db.item.findMany({
     where: {
-      name: {
-        contains: query.toLowerCase(),
-        mode: 'insensitive',
-      }
+      ...(query && {
+        name: {
+          contains: query.toLowerCase(),
+          mode: 'insensitive',
+        },
+      }),
+      ...(categoryId && { categoryId }),
     },
     include: {
       images: true,
@@ -22,5 +28,4 @@ export default async function ItemsList({ query }: { query: string }) {
 
     </ul>
   );
-
 }
