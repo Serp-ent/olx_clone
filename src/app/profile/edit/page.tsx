@@ -1,4 +1,5 @@
 export default function EditProfile() {
+  // TODO: add functionality
   return (
     <main className="p-4 bg-white">
       <h1 className="text-xl font-bold">Edit Profile</h1>

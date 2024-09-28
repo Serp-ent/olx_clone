@@ -7,14 +7,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// TODO: allow user for profile photos 
 model User {
-  id            String   @id @default(uuid())
-  email         String   @unique
-  name          String?
-  password      String
-  createdAt     DateTime @default(now())
-  products Item[]   @relation("ItemAuthor")
-  favorites     Item[]   @relation("UserFavorites")
+  id          String   @id @default(uuid())
+  email       String   @unique
+  firstName   String
+  lastName    String
+  phoneNumber String?  @unique
+  address     Address?
+  password    String
+  createdAt   DateTime @default(now())
+  products    Item[]   @relation("ItemAuthor")
+  favorites   Item[]   @relation("UserFavorites")
+}
+
+model Address {
+  id         String  @id @default(uuid())
+  street     String?
+  city       String?
+  state      String?
+  postalCode String?
+  country    String?
+  userId     String  @unique
+  user       User    @relation(fields: [userId], references: [id])
 }
 
 model Item {

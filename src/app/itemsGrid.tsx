@@ -34,8 +34,6 @@ export default async function ItemsGrid() {
     isFavorite: favoriteItemIds.has(item.id),
   }));
 
-  console.log(itemsWithFavoriteFlag);
-
   return (
     <section className="p-4 grow">
       <h3

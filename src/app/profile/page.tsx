@@ -11,6 +11,7 @@ export default async function ProfilePage() {
   }
 
   const email = session.user!.email!;
+  // const user = await db.user.findUnique({ where: { email } });
   const user = await db.user.findUnique({ where: { email } });
   if (!user) {
     return notFound();
@@ -18,4 +19,3 @@ export default async function ProfilePage() {
 
   return <Profile userId={user.id}></Profile>
 }
-

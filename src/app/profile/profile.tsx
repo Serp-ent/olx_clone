@@ -44,7 +44,7 @@ export default async function Profile(
             /> */}
           </div>
           <div className="ml-6">
-            <h1 className="text-3xl font-bold">TODO:</h1>
+            <h1 className="text-2xl font-bold">{user.firstName}</h1>
             <p className="text-xs">
               Member since {user.createdAt.toLocaleDateString()}
             </p>
@@ -55,21 +55,24 @@ export default async function Profile(
         <div className="p-6 bg-white text-[#002f34]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Personal Info */}
+            {/* TODO: refactor this should be 2 columns with data left aligned */}
             <div>
               <h2 className="text-xl font-semibold text-[#002f6c] mb-4">Personal Information</h2>
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
                   <span className="font-semibold">Full Name:</span>
-                  <span>TODO:</span>
+                  <span>{user.firstName} {user.lastName}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="font-semibold">Email:</span>
                   <span>{user.email}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold">Phone:</span>
-                  <span>TODO:</span>
-                </div>
+                {user.phoneNumber && (
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold">Phone:</span>
+                    <span>{user.phoneNumber}</span>
+                  </div>
+                )}
               </div>
             </div>
 
