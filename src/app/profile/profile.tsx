@@ -1,6 +1,7 @@
 import db from '@/app/lib/prisma'
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { auth } from '../auth';
 
 export default async function Profile(
   { userId }: { userId: string }) {
@@ -19,6 +20,10 @@ export default async function Profile(
   if (!user) {
     return notFound();
   }
+
+  const email = (await auth())!.user!.email!
+  // TODO: the auth() should contain email and id (not optional);
+  const userOwnProfile = user.email === email;
 
   // TODO: add star reviews
 
@@ -90,15 +95,17 @@ export default async function Profile(
         </div>
 
         {/* TODO: Edit Profile Button */}
-        {/* TODO: show edit button only when its own user profile
-        <div className="bg-[#002f6c] p-4 text-center">
-          <Link
-            href='/profile/edit'
-            className="px-4 py-2 text-white bg-[#23b2b0] rounded-lg hover:bg-[#1d9f9e]"
-          >
-            Edit Profile
-          </Link>
-        </div> */}
+        {/* TODO: show edit button only when its own user profile */}
+        {userOwnProfile && (
+          <div className="bg-secondary p-4 text-center">
+            <Link
+              href='/profile/edit'
+              className="px-4 py-2 text-white bg-[#23b2b0] rounded-lg hover:bg-[#1d9f9e]"
+            >
+              Edit Profile
+            </Link>
+          </div>
+        )}
       </div>
     </main>
   );

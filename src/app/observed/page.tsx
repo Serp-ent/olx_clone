@@ -29,6 +29,7 @@ export default async function ObservedPage() {
 
   // TODO: use component for items list
   // TODO: allow to add/remove to/from favorites etc
+  // TODO: use itemsList component
   return (
     <main
       className="px-4 py-2 ">
