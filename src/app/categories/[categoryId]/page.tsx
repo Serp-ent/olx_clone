@@ -19,7 +19,7 @@ export default async function CategoryPage({ params }: {
   // filter items for given category
   return (
     <main>
-      <ItemsList categoryId={id}/>
+      <ItemsList categoryId={id} />
     </main>
 
   );
