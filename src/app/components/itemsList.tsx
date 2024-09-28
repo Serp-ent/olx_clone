@@ -53,7 +53,7 @@ export default async function ItemsList(
   }
 
   return (
-    <ul className='p-2 space-y-1'>
+    <ul className='space-y-1'>
       {itemsWithFavoriteFlag.map((item) => (
         <li key={item.id}>
           <Item item={item} />

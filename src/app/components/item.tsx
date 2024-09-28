@@ -31,7 +31,7 @@ export default function Item({ item }: { item: ProductWithImages }) {
 
 
         <h3 className="grow">
-          Item {item.id}
+          {item.name}
         </h3>
       </Link>
 
