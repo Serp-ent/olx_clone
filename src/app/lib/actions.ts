@@ -50,7 +50,13 @@ export async function toggleFavorites(productIdStr: string) {
     });
   }
 
+  revalidatePath('/observed');
   revalidatePath(`/offer/${productIdStr}`);
+
+  return {
+    itemId: parseInt(productIdStr),
+    isFavorited: !isFavorited
+  };
 }
 
 export async function authenticate(

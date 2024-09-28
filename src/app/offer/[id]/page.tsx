@@ -6,6 +6,7 @@ import { toggleFavorites } from "@/app/lib/actions";
 import { auth } from "@/app/auth";
 import UserShort from "../../components/userShort";
 import Link from "next/link";
+import FavoriteButton from "@/app/components/favoriteButton";
 
 export default async function OfferPage({ params }:
   { params: { id: string } }
@@ -34,11 +35,11 @@ export default async function OfferPage({ params }:
     include: { favorites: true }
   });
 
-  const isFavorite = userFavorites?.favorites.some((product) => product.id === item.id);
+  // TODO: this should be done using db
+  const isFavorite = userFavorites?.favorites.some((product) => product.id === item.id) || false;
   // TODO: add adding offer to favorites
   {/* TODO: there should be image carousel */ }
   // TODO: the image should fill whole width
-  const toggleFavoritesId = toggleFavorites.bind(null, params.id);
   return (
     <main className="grid grid-rows-1">
       <section className="grid place-content-center">
@@ -50,11 +51,11 @@ export default async function OfferPage({ params }:
         />
       </section>
       <section className="bg-gray-100 grow text-emerald-950 p-4 rounded-t-lg relative">
-        <form
+        {/* TODO: play animation on added */}
+        {/* <form
           className="absolute right-10 top-0 -translate-y-1/2 p-2 border bg-red-200 rounded-full"
           action={toggleFavoritesId}
         >
-          {/* TODO: play animation on added */}
           <button>
             {isFavorite ? (
               <BsHeartFill color="red" size={20} />
@@ -63,7 +64,12 @@ export default async function OfferPage({ params }:
             )}
           </button>
 
-        </form>
+        </form> */}
+        <section
+          className="text-xl absolute right-10 top-0 -translate-y-1/2 p-2 grid place-content-center border bg-red-200 rounded-full"
+        >
+          <FavoriteButton itemId={params.id} initialIsFavorite={isFavorite} />
+        </section>
 
         <h6 className="text-xs">
           {item.createdAt.toLocaleTimeString()}

@@ -4,6 +4,7 @@ import db from '@/app/lib/prisma';
 import Image from "next/image";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import ItemsList from "../components/itemsList";
+import FavoriteButton from "../components/favoriteButton";
 
 export default async function ObservedPage() {
   // TODO: add pagination
@@ -63,12 +64,14 @@ export default async function ObservedPage() {
 
             </Link>
             {/* TODO: add removing from favorites functionality */}
-            <form
+            <section
               className="p-2 grid place-content-center">
-              <button type="submit">
-                <BsHeartFill color="red" size={20} />
-              </button>
-            </form>
+              {/* This page is for observed items */}
+              <FavoriteButton
+                initialIsFavorite={true}
+                itemId={item.id.toString()}
+              />
+            </section>
 
           </li>
         ))}
