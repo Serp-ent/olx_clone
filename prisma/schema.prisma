@@ -8,6 +8,7 @@ datasource db {
 }
 
 // TODO: allow user for profile photos 
+// TODO: maybe add bio
 model User {
   id          String   @id @default(uuid())
   email       String   @unique

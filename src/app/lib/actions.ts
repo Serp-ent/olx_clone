@@ -117,6 +117,8 @@ export async function registerUser(
   }
 
   console.log('creating user');
+  // TODO: fix registration
+  // missing fields firstName and lastName
   await db.user.create({
     data: {
       email: credentials.email,
@@ -126,4 +128,85 @@ export async function registerUser(
 
   console.log('redirecting');
   redirect('/login'); // Redirect after successful registration
+}
+
+// TODO: validation schemas should be in distinct files
+// TODO: stricter validation
+const updateProfileSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  phoneNumber: z.string().optional(),
+  street: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
+});
+
+export async function updateProfile(formData: FormData) {
+  const email = (await auth())?.user?.email;
+  if (!email) {
+    return "Unauthorized";
+  }
+
+  const data = {
+    firstName: formData.get("firstName")?.toString(),
+    lastName: formData.get("lastName")?.toString(),
+    phoneNumber: formData.get("phoneNumber")?.toString(),
+    street: formData.get("street")?.toString(),
+    city: formData.get("city")?.toString(),
+    state: formData.get("state")?.toString(),
+    postalCode: formData.get("postalCode")?.toString(),
+    country: formData.get("country")?.toString(),
+  };
+
+  const validation = updateProfileSchema.safeParse(data);
+  if (!validation.success) {
+    console.error("Validation failed:", validation.error.format());
+    return "Validation error";
+  }
+
+  await db.user.update({
+    where: { email },
+    data: {
+
+    }
+  });
+
+  try {
+    // Update user profile in database
+    await db.user.update({
+      where: { email },
+      data: {
+        firstName: validation.data.firstName,
+        lastName: validation.data.lastName,
+        phoneNumber: validation.data.phoneNumber,
+        address: {
+          upsert: {
+            create: {
+              street: validation.data.street,
+              city: validation.data.city,
+              state: validation.data.state,
+              postalCode: validation.data.postalCode,
+              country: validation.data.country,
+            },
+            update: {
+              street: validation.data.street,
+              city: validation.data.city,
+              state: validation.data.state,
+              postalCode: validation.data.postalCode,
+              country: validation.data.country,
+            },
+          },
+        },
+      },
+    });
+
+    revalidatePath('/profile');
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return "Error updating profile";
+  }
+
+  redirect('/profile');
 }
