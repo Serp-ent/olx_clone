@@ -34,8 +34,6 @@ export default async function EditProfile() {
   }
   delete userData.address;
 
-  console.log('userData', userData);
-
   return (
     <main className="p-4 bg-white">
       <h1 className="text-xl font-bold my-2">Edit Profile</h1>

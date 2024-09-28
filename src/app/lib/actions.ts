@@ -1,5 +1,8 @@
 'use server';
 
+
+import fs from 'fs';
+import path from 'path';
 import { AuthError } from "next-auth";
 import { auth, signIn } from "../auth";
 import db from '@/app/lib/prisma';
@@ -209,4 +212,71 @@ export async function updateProfile(formData: FormData) {
   }
 
   redirect('/profile');
+}
+
+export async function createAd(formData: FormData) {
+  'use server';
+
+  const form = {
+    name: formData.get('name')?.toString() || '',
+    description: formData.get('description')?.toString() || '',
+    price: formData.get('price')?.toString() || '',
+    categoryId: formData.get('category')?.toString() || '',
+  };
+
+  const price = parseFloat(form.price);
+  const categoryId = parseInt(form.categoryId, 10);
+  const photoFiles = formData.getAll('photos') as File[];  // Get all photos as an array of Files
+
+  if (!form.name || isNaN(price) || isNaN(categoryId) || photoFiles.length === 0) {
+    throw new Error('Invalid form data');
+  }
+
+  const email = (await auth())!.user!.email!;
+  const user = await db.user.findUnique({ where: { email } });
+  if (!user) {
+    throw new Error('Cannot find user for current session');
+  }
+
+  const newProduct = await db.item.create({
+    data: {
+      name: form.name,
+      description: form.description,
+      price, // storing price as a number
+      categoryId, // storing categoryId as a number
+      authorId: user.id,
+    },
+  });
+
+  // Process each uploaded photo
+  for (const photoFile of photoFiles) {
+    const buffer = await photoFile.arrayBuffer();
+    const photoBuffer = Buffer.from(buffer);
+
+    const destinationPath = path.join(
+      process.cwd(),
+      'public',
+      'items',
+      newProduct.id.toString()
+    );
+
+    // Ensure the directory exists
+    if (!fs.existsSync(destinationPath)) {
+      fs.mkdirSync(destinationPath, { recursive: true });
+    }
+
+    const filePath = path.join(destinationPath, photoFile.name);
+    fs.writeFileSync(filePath, photoBuffer);
+
+    const imageUrl = `/items/${newProduct.id}/${photoFile.name}`;
+    await db.productImage.create({
+      data: {
+        url: imageUrl,
+        productId: newProduct.id,
+      },
+    });
+  }
+
+  revalidatePath('/');
+  redirect('/');
 }

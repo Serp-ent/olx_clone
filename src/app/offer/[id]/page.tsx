@@ -7,6 +7,9 @@ import { auth } from "@/app/auth";
 import UserShort from "../../components/userShort";
 import Link from "next/link";
 import FavoriteButton from "@/app/components/favoriteButton";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper-bundle.css';
+import ImageCarousel from "./imageCarousel";
 
 export default async function OfferPage({ params }:
   { params: { id: string } }
@@ -35,6 +38,7 @@ export default async function OfferPage({ params }:
     include: { favorites: true }
   });
 
+  // TODO: add option for removing offer
   // TODO: this should be done using db
   const isFavorite = userFavorites?.favorites.some((product) => product.id === item.id) || false;
   // TODO: add adding offer to favorites
@@ -42,13 +46,10 @@ export default async function OfferPage({ params }:
   // TODO: the image should fill whole width
   return (
     <main className="grid grid-rows-1">
-      <section className="grid place-content-center">
-        <Image
-          src={item.images.at(0)?.url || ""}
-          alt={item.name}
-          height={100}
-          width={100}
-        />
+      {/* // TODO: fix carousel to show dots etc. */}
+      <section className="w-screen h-44">
+        {/* // TODO: add image carousel */}
+        <ImageCarousel images={item.images} />
       </section>
       <section className="bg-gray-100 grow text-emerald-950 p-4 rounded-t-lg relative">
         {/* TODO: play animation on added */}
@@ -66,7 +67,7 @@ export default async function OfferPage({ params }:
 
         </form> */}
         <section
-          className="text-xl absolute right-10 top-0 -translate-y-1/2 p-2 grid place-content-center border bg-red-200 rounded-full"
+          className="z-10 text-xl absolute right-10 top-0 -translate-y-1/2 p-2 grid place-content-center border bg-red-200 rounded-full"
         >
           <FavoriteButton itemId={params.id} initialIsFavorite={isFavorite} />
         </section>
