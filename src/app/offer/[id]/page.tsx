@@ -1,6 +1,6 @@
 import Image from "next/image";
 import db from '@/app/lib/prisma';
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { BsFlag, BsHeart, BsHeartFill, BsChevronRight } from "react-icons/bs";
 import { toggleFavorites } from "@/app/lib/actions";
 import { auth } from "@/app/auth";
@@ -30,7 +30,7 @@ export default async function OfferPage({ params }:
   const userId = (await auth())?.user?.email; // Replace with the actual user ID from your session/context
   if (!userId) {
     // TODO: refactor
-    throw new Error('User not authorized');
+    redirect('/login');
   }
 
   const userFavorites = await db.user.findUnique({

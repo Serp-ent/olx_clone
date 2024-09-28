@@ -4,11 +4,7 @@ import { auth } from './auth';
 
 export default async function ItemsGrid() {
   const session = await auth();
-  if (!session) {
-    return 'Unauthorized';
-  }
-
-  const email = session!.user!.email!;
+  const email = session?.user!.email;
 
   // Fetch items and user favorites in parallel
   const [items, userFavorites] = await Promise.all([
@@ -18,7 +14,7 @@ export default async function ItemsGrid() {
       },
     }),
     db.user.findUnique({
-      where: { email },
+      where: { email: email || '' },
       include: {
         favorites: true,
       },

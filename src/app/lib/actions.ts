@@ -14,7 +14,7 @@ export async function toggleFavorites(productIdStr: string) {
   const session = await auth();
   // TODO: refactor
   if (!session || !session.user || !session.user.email) {
-    return;
+    redirect('/login');
   }
 
   const user = await db.user.findUnique({
@@ -23,7 +23,7 @@ export async function toggleFavorites(productIdStr: string) {
   });
 
   if (!user) {
-    return;
+    redirect('/login');
   }
 
   const productId = Number(productIdStr);

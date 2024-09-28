@@ -1,7 +1,7 @@
 import db from '@/app/lib/prisma'
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { auth } from '../auth';
+import { auth, signOut } from '../auth';
 
 export default async function Profile(
   { userId }: { userId: string }) {
@@ -100,13 +100,23 @@ export default async function Profile(
         {/* TODO: Edit Profile Button */}
         {/* TODO: show edit button only when its own user profile */}
         {userOwnProfile && (
-          <div className="bg-secondary p-4 text-center">
+          <div className="bg-secondary p-4 text-center flex justify-end items-center gap-2">
             <Link
               href='/profile/edit'
               className="px-4 py-2 text-white bg-[#23b2b0] rounded-lg hover:bg-[#1d9f9e]"
             >
               Edit Profile
             </Link>
+            <form
+              action={async () => {
+                'use server';
+                await signOut({ redirect: true, redirectTo: "/" });
+              }}
+            >
+              <button className="text-emerald-950 flex items-center justify-center gap-2 rounded-md bg-gray-50 p-2 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+                Sign Out
+              </button>
+            </form>
           </div>
         )}
       </div>
