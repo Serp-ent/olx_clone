@@ -280,3 +280,19 @@ export async function createAd(formData: FormData) {
   revalidatePath('/');
   redirect('/');
 }
+
+// TODO: add validation if the user is owner 
+// TODO: check if item exists
+export async function deleteOffer(offerId: number) {
+  await db.productImage.deleteMany({
+    where: {
+      productId: offerId
+    }
+  });
+
+  await db.item.delete({
+    where: { id: offerId },
+  });
+
+  revalidatePath('/myOffers');
+}

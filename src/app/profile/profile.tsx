@@ -100,10 +100,16 @@ export default async function Profile(
         {/* TODO: Edit Profile Button */}
         {/* TODO: show edit button only when its own user profile */}
         {userOwnProfile && (
-          <div className="bg-secondary p-4 text-center flex justify-end items-center gap-2">
+          <div className="bg-secondary px-2 py-2 flex justify-center items-center gap-2">
+            <Link
+              href={'/myOffers'}
+              className="text-emerald-950 flex items-center justify-center gap-2 rounded-md bg-gray-50 p-2 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
+            >
+              My Offers
+            </Link>
             <Link
               href='/profile/edit'
-              className="px-4 py-2 text-white bg-[#23b2b0] rounded-lg hover:bg-[#1d9f9e]"
+              className="text-emerald-950 flex items-center justify-center gap-2 rounded-md bg-gray-50 p-2 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
             >
               Edit Profile
             </Link>

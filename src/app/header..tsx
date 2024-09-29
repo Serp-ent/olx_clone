@@ -17,7 +17,7 @@ export async function searchAction(formData: FormData) {
 
 export default function Header() {
   return (
-    <header className="bg-background px-3 py-5 flex gap-4 items-center justify-between">
+    <header className="bg-background px-3 py-5 flex gap-4 items-center justify-between shadow">
       <form
         action={searchAction}
         className="flex grow">
