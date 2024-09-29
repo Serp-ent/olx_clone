@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 export default async function CategoriesPage() {
   const categories = await db.category.findMany();
+  // TODO: add images to categories
   return (
     <main
       className='p-4'

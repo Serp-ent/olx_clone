@@ -1,4 +1,3 @@
-import Image from "next/image";
 import db from '@/app/lib/prisma';
 import { notFound, redirect } from "next/navigation";
 import { BsFlag, BsHeart, BsHeartFill, BsChevronRight } from "react-icons/bs";
@@ -7,9 +6,9 @@ import { auth } from "@/app/auth";
 import UserShort from "../../components/userShort";
 import Link from "next/link";
 import FavoriteButton from "@/app/components/favoriteButton";
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import ImageCarousel from "./imageCarousel";
+
 
 export default async function OfferPage({ params }:
   { params: { id: string } }
@@ -69,7 +68,10 @@ export default async function OfferPage({ params }:
         <section
           className="z-10 text-xl absolute right-10 top-0 -translate-y-1/2 p-2 grid place-content-center border bg-red-200 rounded-full"
         >
-          <FavoriteButton itemId={params.id} initialIsFavorite={isFavorite} />
+          <FavoriteButton
+            itemId={params.id}
+            initialIsFavorite={isFavorite}
+          />
         </section>
 
         <h6 className="text-xs">

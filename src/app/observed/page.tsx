@@ -3,8 +3,15 @@ import { auth } from "../auth";
 import db from '@/app/lib/prisma';
 import Image from "next/image";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
-import ItemsList from "../components/itemsList";
 import FavoriteButton from "../components/favoriteButton";
+import { Item, ProductImage } from "@prisma/client";
+import ItemsList from "../components/itemList";
+
+type ProductWithImages = Item & {
+  images: ProductImage[],
+  isFavorite: boolean,
+};
+
 
 export default async function ObservedPage() {
   // TODO: add pagination
@@ -27,6 +34,9 @@ export default async function ObservedPage() {
     }
   });
 
+  const items = userFavorites!.favorites as ProductWithImages[];
+  items.forEach((item) => item.isFavorite = true);
+
   // TODO: use component for items list
   // TODO: allow to add/remove to/from favorites etc
   // TODO: use itemsList component
@@ -36,48 +46,10 @@ export default async function ObservedPage() {
       <h2 className="font-bold text-lg p-2">
         Observed Items
       </h2>
-      <ul
-        className="space-y-2">
-        {userFavorites?.favorites.map(item => (
-          <li
-            key={item.id}
-            className="bg-white flex justify-between gap-2 items-center shadow p-2  rounded"
-          >
-            <Link
-              href={`/offer/${item.id}`}
-              className="grow"
-            >
-              <div className="flex items-center gap-2">
-                <Image
-                  src={item.images.at(0)?.url || ''}
-                  alt={item.name}
-                  width={50}
-                  height={50}
-                  className="rounded grid border text-xs overflow-hidden text-wrap"
-                />
 
-                <h2
-                  className="font-bold"
-                >
-                  {item.name}
-                </h2>
-              </div>
-
-            </Link>
-            {/* TODO: add removing from favorites functionality */}
-            <section
-              className="p-2 grid place-content-center">
-              {/* This page is for observed items */}
-              <FavoriteButton
-                initialIsFavorite={true}
-                itemId={item.id.toString()}
-              />
-            </section>
-
-          </li>
-        ))}
-
-      </ul>
+      <section>
+        <ItemsList items={items} />
+      </section>
     </main>
   );
 
