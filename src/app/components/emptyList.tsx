@@ -11,7 +11,7 @@ export default function EmptyList() {
           We did not find any results
         </h1>
         <p className='text-gray-600 mb-6'>
-          Sorry, but it seems there’s nothing to display in this category.
+          Sorry, but it seems there’s nothing to display here.
         </p>
         <button
           onClick={() => router.back()}

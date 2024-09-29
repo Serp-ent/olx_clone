@@ -3,7 +3,7 @@
 import { BsTrashFill } from "react-icons/bs";
 import { deleteOffer } from "../lib/actions";
 
-export default function DeleteOfferButton({id}: {id: number}) {
+export default function DeleteOfferButton({ id, redirectLink }: { id: number, redirectLink: string | null }) {
   // TODO: maybe add name which element is being removed
   return (
     <button
@@ -13,7 +13,7 @@ export default function DeleteOfferButton({id}: {id: number}) {
           return;
         }
 
-        await deleteOffer(id);
+        await deleteOffer(id, redirectLink);
       }}
     >
       <BsTrashFill />

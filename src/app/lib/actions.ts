@@ -283,7 +283,7 @@ export async function createAd(formData: FormData) {
 
 // TODO: add validation if the user is owner 
 // TODO: check if item exists
-export async function deleteOffer(offerId: number) {
+export async function deleteOffer(offerId: number, redirectLink: string | null) {
   await db.productImage.deleteMany({
     where: {
       productId: offerId
@@ -295,4 +295,7 @@ export async function deleteOffer(offerId: number) {
   });
 
   revalidatePath('/myOffers');
+  if (redirectLink) {
+    redirect(redirectLink);
+  }
 }

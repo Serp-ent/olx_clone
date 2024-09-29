@@ -7,17 +7,12 @@ import db from '@/app/lib/prisma';
 import Image from "next/image";
 import { BsFillTrashFill, BsPencil, BsPencilFill, BsTrash2Fill } from "react-icons/bs";
 import DeleteOfferButton from "./deleteOfferButton";
-
-const actions = [
-  {
-    icon: <BsPencilFill />,
-    action: null,
-  },
-]
+import EditOfferButton from "./editOfferButton";
 
 // TODO: SEO
 // TODO: hide/show offers 
 // TODO: ability to edit offer
+// TODO: post creation should redirect to /offer/id
 export default async function MyOffers() {
   const session = await auth();
   if (!session) {
@@ -63,15 +58,11 @@ export default async function MyOffers() {
                 </h3>
               </Link>
               <div className="text-xl grow-0 pr-3 flex gap-2 items-center justify-start" >
-                {actions.map((action, i) =>
-                  <button
-                    key={i}
-                    className="text-xl"
-                  >
-                    {action.icon}
-                  </button>
-                )}
-                <DeleteOfferButton id={item.id} />
+                <EditOfferButton id={item.id} />
+                <DeleteOfferButton
+                  id={item.id}
+                  redirectLink={null}
+                />
               </div>
             </li>
           )}

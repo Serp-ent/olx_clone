@@ -8,6 +8,8 @@ import Link from "next/link";
 import FavoriteButton from "@/app/components/favoriteButton";
 import 'swiper/swiper-bundle.css';
 import ImageCarousel from "./imageCarousel";
+import DeleteOfferButton from '@/app/myOffers/deleteOfferButton';
+import EditOfferButton from '@/app/myOffers/editOfferButton';
 
 
 export default async function OfferPage({ params }:
@@ -36,6 +38,9 @@ export default async function OfferPage({ params }:
     where: { email: userId },
     include: { favorites: true }
   });
+
+
+  const isOwner = item.authorId === userId;
 
   // TODO: add option for removing offer
   // TODO: this should be done using db
@@ -77,7 +82,16 @@ export default async function OfferPage({ params }:
         <h6 className="text-xs">
           {item.createdAt.toLocaleTimeString()}
         </h6>
-        <h1 className="font-bold">{item.name}</h1>
+        <div className='flex justify-between'>
+          <h1 className="font-bold">{item.name}</h1>
+          <section className='text-xl flex gap-2'>
+            <EditOfferButton id={item.id} />
+            <DeleteOfferButton
+              id={item.id}
+              redirectLink='/'
+            />
+          </section>
+        </div>
         <section>
           <div className="border-2 rounded p-2">
             Only item:
