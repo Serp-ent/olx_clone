@@ -7,6 +7,7 @@ export default function UserIdProfilePage({ params }:
   // TODO: create custom 404 page
   // TODO: create custom error fetching page
   // TODO: create loading page (maybe skeleton?)
+  // TODO: user should be able to see his own offers and manage them (add removing)
 
   return <Profile userId={params.userId}></Profile>;
 }

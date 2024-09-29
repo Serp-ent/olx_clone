@@ -24,12 +24,14 @@ export default function Card({ item }: { item: ProductWithImages }) {
         className="flex flex-col grow"
       >
         {item.images.length > 0 ? (
-          <div className="grid place-content-center">
+          <div className="relative w-full h-24">
             <Image
               src={item.images[0].url}
               alt={item.name}
-              width={50}
-              height={50}
+              fill
+              className="object-contain"
+              // width={50}
+              // height={50}
             />
           </div>
         ) : (
