@@ -1,4 +1,5 @@
 import db from '@/app/lib/prisma';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function CategoriesPage() {
@@ -12,13 +13,24 @@ export default async function CategoriesPage() {
         {categories.map((category) => (
           <li
             key={category.id}
-            className='border-emerald-950 border p-1 rounded'
+            className='p-1 rounded bg-white shadow'
           >
             <Link
               href={`/categories/${category.id}`}
-              className='block'
+              className='flex justify-between items-center'
             >
-              {category.name}
+              <div className='h-20 aspect-square rounded-full overflow-hidden border-primary  border-2 text-xs relative'>
+                <Image
+                  src={category.imageUrl || ''}
+                  alt={`${category.name} image`}
+                  fill
+                />
+
+              </div>
+
+              <h3 className='font-bold text-right pr-2'>
+                {category.name}
+              </h3>
             </Link>
           </li>
         ))}
