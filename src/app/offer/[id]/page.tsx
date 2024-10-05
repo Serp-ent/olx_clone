@@ -44,6 +44,7 @@ export default async function OfferPage({ params }:
 
   // TODO: add option for removing offer
   // TODO: this should be done using db
+  // TODO: count how many times number was shown
   const isFavorite = userFavorites?.favorites.some((product) => product.id === item.id) || false;
   // TODO: add adding offer to favorites
   {/* TODO: there should be image carousel */ }

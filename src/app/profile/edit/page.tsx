@@ -12,6 +12,7 @@ const formFields = [
   { label: 'State', id: 'state', name: 'state', type: 'text', required: false },
   { label: 'Postal Code', id: 'postalCode', name: 'postalCode', type: 'text', required: false },
   { label: 'Country', id: 'country', name: 'country', type: 'text', required: false },
+  { label: 'Profile Picture', id: 'profilePic', name: 'profilePic', type: 'file', required: false },
 ];
 export default async function EditProfile() {
   // TODO: add functionality
@@ -52,8 +53,8 @@ export default async function EditProfile() {
               name={field.name}
               className="border rounded p-2 w-full border-primary bg-background"
               required={field.required}
-              // TODO: fix implicit any type
-              defaultValue={userData[field.name]}
+              // Fix implicit any type
+              defaultValue={field.type !== 'file' ? userData[field.name] : undefined}
             />
           </div>
         ))}

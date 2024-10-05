@@ -10,16 +10,17 @@ datasource db {
 // TODO: allow user for profile photos 
 // TODO: maybe add bio
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
-  firstName   String
-  lastName    String
-  phoneNumber String?  @unique
-  address     Address?
-  password    String
-  createdAt   DateTime @default(now())
-  products    Item[]   @relation("ItemAuthor")
-  favorites   Item[]   @relation("UserFavorites")
+  id                String   @id @default(uuid())
+  email             String   @unique
+  firstName         String
+  lastName          String
+  phoneNumber       String?  @unique
+  profilePictureUrl String?
+  address           Address?
+  password          String
+  createdAt         DateTime @default(now())
+  products          Item[]   @relation("ItemAuthor")
+  favorites         Item[]   @relation("UserFavorites")
 }
 
 model Address {

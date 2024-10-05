@@ -1,4 +1,5 @@
 import db from '@/app/lib/prisma'
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from "next/navigation";
 
@@ -15,7 +16,12 @@ export default async function UserShort({ userId }: { userId: string }) {
       href={`/profile/${user.id}`}
       className="shadow-md rounded p-4 flex gap-2 items-center"
     >
-      <div className="bg-red-950 rounded-full aspect-square h-14">
+      <div className="relative rounded-full aspect-square h-16 overflow-hidden">
+        <Image
+          src={user.profilePictureUrl || ''}
+          alt={`${user.firstName} ${user.lastName} profile picture`}
+          fill
+        />
       </div>
       <div>
         <h4 className='font-bold'>

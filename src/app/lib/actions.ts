@@ -147,8 +147,8 @@ const updateProfileSchema = z.object({
 });
 
 export async function updateProfile(formData: FormData) {
-  const email = (await auth())?.user?.email;
-  if (!email) {
+  const userAuth = (await auth())!.user;
+  if (!userAuth) {
     return "Unauthorized";
   }
 
@@ -169,17 +169,40 @@ export async function updateProfile(formData: FormData) {
     return "Validation error";
   }
 
-  await db.user.update({
-    where: { email },
-    data: {
 
-    }
-  });
 
   try {
     // Update user profile in database
+    const profilePicture = formData.get('profilePic') as File || null;
+    let profilePictureUrl: string | null = null;
+    if (profilePicture && profilePicture.size !== 0) {
+      //**** */
+      const buffer = await profilePicture.arrayBuffer();
+      const photoBuffer = Buffer.from(buffer);
+
+      const destinationPath = path.join(
+        process.cwd(),
+        'public',
+        'user',
+        userAuth.email!.toString(),
+      );
+
+      // Ensure the directory exists
+      if (!fs.existsSync(destinationPath)) {
+        fs.mkdirSync(destinationPath, { recursive: true });
+      }
+
+      const filePath = path.join(destinationPath, profilePicture.name);
+      fs.writeFileSync(filePath, photoBuffer);
+
+      // TODO: this should use id instead of email
+      profilePictureUrl = `/user/${userAuth.email!}/${profilePicture.name}`;
+    }
+
+    console.log('profilePictureUrl:', profilePictureUrl)
+
     await db.user.update({
-      where: { email },
+      where: { email: userAuth.email! },
       data: {
         firstName: validation.data.firstName,
         lastName: validation.data.lastName,
@@ -202,6 +225,7 @@ export async function updateProfile(formData: FormData) {
             },
           },
         },
+        ...(profilePictureUrl && { profilePictureUrl })
       },
     });
 

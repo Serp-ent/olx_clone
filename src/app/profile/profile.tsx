@@ -2,6 +2,7 @@ import db from '@/app/lib/prisma'
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { auth, signOut } from '../auth';
+import Image from 'next/image';
 
 export default async function Profile(
   { userId }: { userId: string }) {
@@ -32,16 +33,15 @@ export default async function Profile(
       <div className="max-w-4xl w-full bg-white shadow-lg rounded-lg overflow-hidden">
         {/* Profile Header */}
         <div className="bg-[#002f34] p-6 text-white flex items-center">
-          <div className="h-24 aspect-square shrink-0 rounded-full overflow-hidden border-4 border-[#23b2b0]">
-            {/* TODO: profile pic */}
-            <div className="rounded-full bg-red-300 h-full grid place-content-center">
-              TODO: Avatar
-            </div>
-            {/* <img
-              src="/profile-pic-placeholder.jpg"
+          {/* TODO: profile pic */}
+          <div className=" border-[#23b2b0] h-24 shrink-0 border-4 aspect-square relative rounded-full overflow-hidden">
+            TODO: Avatar
+            <Image
+              src={user.profilePictureUrl || ""}
               alt="Profile Picture"
               className="object-cover h-full w-full"
-            /> */}
+              fill
+            />
           </div>
           <div className="ml-6">
             <h1 className="text-2xl font-bold">{user.firstName}</h1>
