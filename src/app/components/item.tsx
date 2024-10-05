@@ -14,18 +14,18 @@ export default function Item({ item }: { item: ProductWithImages }) {
 
   return (
     <div
-      className="bg-white flex h-24 justify-between shadow border rounded-md p-2"
+      className="bg-white flex h-24 justify-between shadow border rounded-md p-2 gap-4"
     >
       <Link
         className="flex items-center gap-2 grow"
         href={`/offer/${item.id}`}
       >
-        <div className="aspect-square relative h-full">
+        <div className="border-2 rounded-md aspect-square relative h-full">
           <Image
             src={item.images.at(0)?.url || ''}
             alt={item.name}
             fill
-            className="object-contain rounded-md"
+            className="object-contain"
           />
         </div>
 

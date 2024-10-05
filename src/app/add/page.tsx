@@ -21,7 +21,8 @@ e.g. cars have price, model, production date hp etc...
 
 export default async function AddPage() {
   // TODO: add validation using zod
- 
+  // TODO: there is undefined file added when no photo is submitted
+
   const categories = await db.category.findMany();
 
   return (

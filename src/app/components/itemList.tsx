@@ -19,7 +19,7 @@ export default async function ItemsList({ items }: { items: ItemWithPhoto[] }) {
   }
 
   return (
-    <ul className='space-y-1'>
+    <ul className='space-y-2'>
       {items.map((item) => (
         <li key={item.id}>
           <Item item={item} />
