@@ -10,22 +10,21 @@ interface FavoriteButtonProps {
 }
 
 // TODO: add optimistic ui
-// TODO: add popup when item was added to favorites
 export default function FavoriteButton({ itemId, initialIsFavorite }: FavoriteButtonProps) {
 
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
 
-
-  // TODO: add adding offer to favorites
-  {/* TODO: there should be image carousel */ }
-  // TODO: the image should fill whole width
   const toggleFavoritesId = toggleFavorites.bind(null, itemId);
 
   return (
     <button onClick={async (e) => {
+      setIsFavorite(!isFavorite);
       const updatedValue = await toggleFavoritesId();
       if (updatedValue) {
         setIsFavorite(updatedValue.isFavorited);
+      } else {
+        // on error move back
+        setIsFavorite(isFavorite);
       }
 
       e.stopPropagation();

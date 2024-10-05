@@ -1,6 +1,5 @@
 'use server';
 
-
 import fs from 'fs';
 import path from 'path';
 import { AuthError } from "next-auth";
@@ -12,6 +11,7 @@ import { revalidatePath } from "next/cache";
 
 export async function toggleFavorites(productIdStr: string) {
   const session = await auth();
+
   // TODO: refactor
   if (!session || !session.user || !session.user.email) {
     redirect('/login');
@@ -31,7 +31,6 @@ export async function toggleFavorites(productIdStr: string) {
 
   if (isFavorited) {
     // Remove from favorites
-    console.log('removed from favorites item with id', productIdStr)
     await db.user.update({
       where: { id: user.id },
       data: {
@@ -42,7 +41,6 @@ export async function toggleFavorites(productIdStr: string) {
     });
   } else {
     // Add to favorites
-    console.log('added to favorites item with id', productIdStr)
     await db.user.update({
       where: { id: user.id },
       data: {
