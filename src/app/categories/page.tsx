@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 export default async function CategoriesPage() {
   const categories = await db.category.findMany();
-  // TODO: add images to categories
   return (
     <main
       className='p-4'
@@ -35,7 +34,6 @@ export default async function CategoriesPage() {
           </li>
         ))}
       </ul>
-      {/* TODO: fetch categories and add with list */}
     </main>
   );
 
