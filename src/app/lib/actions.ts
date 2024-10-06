@@ -250,6 +250,7 @@ export async function createAd(formData: FormData) {
   const categoryId = parseInt(form.categoryId, 10);
   const photoFiles = formData.getAll('photos') as File[];  // Get all photos as an array of Files
 
+  // TODO: add zod form validation
   if (!form.name || isNaN(price) || isNaN(categoryId) || photoFiles.length === 0) {
     throw new Error('Invalid form data');
   }
@@ -271,33 +272,41 @@ export async function createAd(formData: FormData) {
   });
 
   // Process each uploaded photo
-  for (const photoFile of photoFiles) {
-    const buffer = await photoFile.arrayBuffer();
-    const photoBuffer = Buffer.from(buffer);
+  if (photoFiles !== null && photoFiles.length > 0) {
+    for (const photoFile of photoFiles) {
+      if (!photoFile || photoFile.size === 0) {
+        console.log("null file")
+        continue;
+      }
 
-    const destinationPath = path.join(
-      process.cwd(),
-      'public',
-      'items',
-      newProduct.id.toString()
-    );
+      const buffer = await photoFile.arrayBuffer();
+      const photoBuffer = Buffer.from(buffer);
 
-    // Ensure the directory exists
-    if (!fs.existsSync(destinationPath)) {
-      fs.mkdirSync(destinationPath, { recursive: true });
+      const destinationPath = path.join(
+        process.cwd(),
+        'public',
+        'items',
+        newProduct.id.toString()
+      );
+
+      // Ensure the directory exists
+      if (!fs.existsSync(destinationPath)) {
+        fs.mkdirSync(destinationPath, { recursive: true });
+      }
+
+      const filePath = path.join(destinationPath, photoFile.name);
+      fs.writeFileSync(filePath, photoBuffer);
+
+      const imageUrl = `/items/${newProduct.id}/${photoFile.name}`;
+      await db.productImage.create({
+        data: {
+          url: imageUrl,
+          productId: newProduct.id,
+        },
+      });
     }
-
-    const filePath = path.join(destinationPath, photoFile.name);
-    fs.writeFileSync(filePath, photoBuffer);
-
-    const imageUrl = `/items/${newProduct.id}/${photoFile.name}`;
-    await db.productImage.create({
-      data: {
-        url: imageUrl,
-        productId: newProduct.id,
-      },
-    });
   }
+
 
   revalidatePath('/');
   redirect('/');
