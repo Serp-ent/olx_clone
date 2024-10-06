@@ -18,7 +18,6 @@ export default async function CategoryPage({ params, searchParams }: {
     return notFound();
   }
 
-  // TODO: add custom page if there is no items for given category
   // TODO: add loading skeleton as the elements are loading
   // TODO: allow user specify how much elements he would like to limit currently hard code0
   const limit = 10;
