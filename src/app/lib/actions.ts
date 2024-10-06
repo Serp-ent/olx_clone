@@ -309,7 +309,8 @@ export async function createAd(formData: FormData) {
 
 
   revalidatePath('/');
-  redirect('/');
+  // TODO: add popup that the post was created
+  redirect(`/offer/${newProduct.id}`);
 }
 
 // TODO: add validation if the user is owner 
