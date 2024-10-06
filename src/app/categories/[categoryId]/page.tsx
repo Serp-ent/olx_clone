@@ -68,9 +68,6 @@ export default async function CategoryPage({ params, searchParams }: {
       </h1>
 
       <section>
-        {/* TODO: this page should only use component
-        currently skeleton is shown up only on first load
-        not when moving around */}
         <ItemsList items={itemsWithFavoriteFlag} />
       </section>
 

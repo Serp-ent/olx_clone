@@ -13,7 +13,6 @@ import Pagination from "../components/pagination";
 // TODO: SEO
 // TODO: hide/show offers 
 // TODO: ability to edit offer
-// TODO: post creation should redirect to /offer/id
 export default async function MyOffers({
   searchParams
 }: {

@@ -9,7 +9,6 @@ interface FavoriteButtonProps {
   initialIsFavorite: boolean;
 }
 
-// TODO: add optimistic ui
 export default function FavoriteButton({ itemId, initialIsFavorite }: FavoriteButtonProps) {
 
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);

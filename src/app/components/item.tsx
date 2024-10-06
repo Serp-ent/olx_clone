@@ -8,9 +8,31 @@ type ProductWithImages = Item & {
   isFavorite: boolean,
 }
 
+function formatTimeOrDate(item: Item) {
+  const createdAt = new Date(item.createdAt); // Ensure createdAt is a Date object
+  const now = new Date(); // Current date and time
+
+  // Check if the createdAt date is the same as the current date
+  const isSameDay = createdAt.getDate() === now.getDate() &&
+    createdAt.getMonth() === now.getMonth() &&
+    createdAt.getFullYear() === now.getFullYear();
+
+  // Formatting options
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };
+
+  if (isSameDay) {
+    // If the same day, return time string (you can adjust the format as needed)
+    return createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  } else {
+    // If different day, return date string
+    return createdAt.toLocaleDateString(undefined, options);
+  }
+}
+
+
 export default function Item({ item }: { item: ProductWithImages }) {
-  // TODO: this should have price
-  // TODO: this should have date added and location
+  // TODO: add localization to item
+  const timeAdded = formatTimeOrDate(item);
 
   return (
     <div
@@ -37,7 +59,7 @@ export default function Item({ item }: { item: ProductWithImages }) {
           </h3>
 
           <h6 className="text-[0.6rem] text-gray-500">
-            TODO: localization
+            {`${'TODO Localization'} - ${timeAdded}`}
           </h6>
 
         </div>

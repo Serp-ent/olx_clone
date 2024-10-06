@@ -236,7 +236,7 @@ export async function updateProfile(formData: FormData) {
   redirect('/profile');
 }
 
-export async function createAd(formData: FormData) {
+export async function createAd(prevState, formData: FormData) {
   'use server';
 
   const form = {
@@ -246,13 +246,43 @@ export async function createAd(formData: FormData) {
     categoryId: formData.get('category')?.toString() || '',
   };
 
-  const price = parseFloat(form.price);
-  const categoryId = parseInt(form.categoryId, 10);
   const photoFiles = formData.getAll('photos') as File[];  // Get all photos as an array of Files
 
-  // TODO: add zod form validation
-  if (!form.name || isNaN(price) || isNaN(categoryId) || photoFiles.length === 0) {
-    throw new Error('Invalid form data');
+  // Zod Schema Definition
+  const formSchema = z.object({
+    name: z.string().min(2, 'Name must have at least 2 characters').max(64, 'Name must have at most 64 characters'),
+    description: z.string().min(3, 'Description must have at least 3 characters').max(4096, 'Description must have at most 4096 characters'),
+    price: z.string().refine((value) => {
+      const num = parseFloat(value);
+      return !isNaN(num) && num > 0;
+    }, {
+      message: 'Price must be a valid number above 0'
+    }),
+    categoryId: z.string().refine(async (value) => {
+      const id = parseInt(value, 10);
+      if (isNaN(id)) return false;
+      const category = await db.category.findUnique({ where: { id } });
+      return category !== null;
+    }, {
+      message: 'Category ID must exist'
+    }),
+  });
+
+  // Validation
+  try {
+    await formSchema.parseAsync(form);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return error.formErrors.fieldErrors;
+    }
+    throw error;
+  }
+
+  const price = parseFloat(form.price);
+  const categoryId = parseInt(form.categoryId, 10);
+
+  if (photoFiles.length === 0) {
+    throw new Error('At least one photo must be uploaded');
   }
 
   const email = (await auth())!.user!.email!;
@@ -265,8 +295,8 @@ export async function createAd(formData: FormData) {
     data: {
       name: form.name,
       description: form.description,
-      price, // storing price as a number
-      categoryId, // storing categoryId as a number
+      price,
+      categoryId,
       authorId: user.id,
     },
   });
@@ -275,7 +305,7 @@ export async function createAd(formData: FormData) {
   if (photoFiles !== null && photoFiles.length > 0) {
     for (const photoFile of photoFiles) {
       if (!photoFile || photoFile.size === 0) {
-        console.log("null file")
+        console.log("null file");
         continue;
       }
 
@@ -306,7 +336,6 @@ export async function createAd(formData: FormData) {
       });
     }
   }
-
 
   revalidatePath('/');
   // TODO: add popup that the post was created

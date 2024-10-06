@@ -22,7 +22,6 @@ export default async function ObservedPage({
   }
 }
 ) {
-  // TODO: add pagination
   const session = await auth();
   if (!session) {
     return 'Unauthorized';
@@ -30,7 +29,6 @@ export default async function ObservedPage({
 
   // TODO: refactor these nasty !
   // TODO: add dates when item was added to favorites and allow sorting
-
   const limit = 10;
   // TODO: fix that disgusting handling of strings
   const page = parseInt(searchParams?.page || '1') || 1;
@@ -64,10 +62,6 @@ export default async function ObservedPage({
   });
   const totalPages = Math.ceil(totalItems / limit);
 
-
-  // TODO: use component for items list
-  // TODO: allow to add/remove to/from favorites etc
-  // TODO: use itemsList component
   return (
     <main
       className="px-4 py-2 space-y-2">
