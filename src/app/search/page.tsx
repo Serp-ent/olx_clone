@@ -6,6 +6,7 @@
 
 import { auth } from "../auth";
 import ItemsList from "../components/itemList";
+import Pagination from "../components/pagination";
 import Search from "./search";
 import db from '@/app/lib/prisma';
 
@@ -14,13 +15,19 @@ export default async function SearchPage({
 }: {
   searchParams?: {
     q?: string,
-    // TODO: page?: string,
+    page?: string,
   }
 }) {
   const query = searchParams?.q || '';
 
   const session = await auth(); // Assuming you're getting session info
   const email = session?.user?.email; // Get the user ID from the session
+
+
+  const limit = 10;
+  // TODO: fix that disgusting handling of strings
+  const page = parseInt(searchParams?.page || '1') || 1;
+  const step = (page - 1) * limit;
 
   const items = await db.item.findMany({
     where: {
@@ -33,8 +40,23 @@ export default async function SearchPage({
     },
     include: {
       images: true,
-    }
+    },
+    skip: step,
+    take: limit,
   });
+
+
+  const totalItems = await db.item.count({
+    where: {
+      ...(query && {
+        name: {
+          contains: query.toLowerCase(),
+          mode: 'insensitive',
+        },
+      }),
+    },
+  });
+  const totalPages = Math.ceil(totalItems / limit);
 
   // Fetch user favorites if user is authenticated
   let favoriteItemIds = new Set<number>();
@@ -56,11 +78,19 @@ export default async function SearchPage({
 
 
   return (
-    <main className="text-emerald-950 p-4">
+    <main className="text-emerald-950 p-4 space-y-3">
       {/* <Search placeholder="search for..." /> */}
 
       {/* // TODO: wrap it in suspense to show loading... */}
-      <ItemsList items={itemsWithFavoriteFlag} />
+      <section>
+        <ItemsList items={itemsWithFavoriteFlag} />
+      </section>
+      <section className="flex justify-center">
+        <Pagination
+          totalPages={totalPages}
+          limit={limit}
+        />
+      </section>
     </main>
   );
 }

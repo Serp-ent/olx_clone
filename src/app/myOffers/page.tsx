@@ -8,16 +8,28 @@ import Image from "next/image";
 import { BsFillTrashFill, BsPencil, BsPencilFill, BsTrash2Fill } from "react-icons/bs";
 import DeleteOfferButton from "./deleteOfferButton";
 import EditOfferButton from "./editOfferButton";
+import Pagination from "../components/pagination";
 
 // TODO: SEO
 // TODO: hide/show offers 
 // TODO: ability to edit offer
 // TODO: post creation should redirect to /offer/id
-export default async function MyOffers() {
+export default async function MyOffers({
+  searchParams
+}: {
+  searchParams?: {
+    page: string,
+  }
+}) {
   const session = await auth();
   if (!session) {
     throw new Error('User is not authenticated');
   }
+
+  const limit = 10;
+  // TODO: fix that disgusting handling of strings
+  const page = parseInt(searchParams?.page || '1') || 1;
+  const step = (page - 1) * limit;
 
   const id = session.user!.id!;
   const items = await db.item.findMany({
@@ -26,12 +38,21 @@ export default async function MyOffers() {
     },
     include: {
       images: true,
-    }
+    },
+    skip: step,
+    take: limit,
   });
 
+  const totalItems = await db.item.count({
+    where: {
+      authorId: id,
+    },
+  });
+  const totalPages = Math.ceil(totalItems / limit);
+
   return (
-    <main className="p-4">
-      <h1 className="font-bold text-2xl pb-2">
+    <main className="p-4 space-y-2">
+      <h1 className="font-bold text-2xl">
         My Offers
       </h1>
       <section>
@@ -68,6 +89,16 @@ export default async function MyOffers() {
           )}
         </ul>
       </section>
+
+      {totalPages > 1 && (
+        <section className="flex justify-center">
+          <Pagination
+            totalPages={totalPages}
+            limit={limit}
+          />
+
+        </section>
+      )}
     </main>
   );
 }

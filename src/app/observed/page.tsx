@@ -6,6 +6,7 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 import FavoriteButton from "../components/favoriteButton";
 import { Item, ProductImage } from "@prisma/client";
 import ItemsList from "../components/itemList";
+import Pagination from "../components/pagination";
 
 type ProductWithImages = Item & {
   images: ProductImage[],
@@ -13,7 +14,14 @@ type ProductWithImages = Item & {
 };
 
 
-export default async function ObservedPage() {
+export default async function ObservedPage({
+  searchParams
+}: {
+  searchParams: {
+    page: string
+  }
+}
+) {
   // TODO: add pagination
   const session = await auth();
   if (!session) {
@@ -22,6 +30,12 @@ export default async function ObservedPage() {
 
   // TODO: refactor these nasty !
   // TODO: add dates when item was added to favorites and allow sorting
+
+  const limit = 10;
+  // TODO: fix that disgusting handling of strings
+  const page = parseInt(searchParams?.page || '1') || 1;
+  const step = (page - 1) * limit;
+
   const email = session.user!.email!;
   const userFavorites = await db.user.findUnique({
     where: { email },
@@ -29,20 +43,34 @@ export default async function ObservedPage() {
       favorites: {
         include: {
           images: true,
-        }
+        },
+        skip: step,
+        take: limit,
       }
-    }
+    },
   });
 
   const items = userFavorites!.favorites as ProductWithImages[];
   items.forEach((item) => item.isFavorite = true);
+
+  const totalItems = await db.item.count({
+    where: {
+      favoritedBy: {
+        some: {
+          id: userFavorites?.id,
+        }
+      }
+    },
+  });
+  const totalPages = Math.ceil(totalItems / limit);
+
 
   // TODO: use component for items list
   // TODO: allow to add/remove to/from favorites etc
   // TODO: use itemsList component
   return (
     <main
-      className="px-4 py-2 ">
+      className="px-4 py-2 space-y-2">
       <h2 className="font-bold text-lg p-2">
         Observed Items
       </h2>
@@ -50,6 +78,15 @@ export default async function ObservedPage() {
       <section>
         <ItemsList items={items} />
       </section>
+
+      {totalPages > 1 && (
+        <section className="flex justify-center">
+          <Pagination
+            totalPages={totalPages}
+            limit={limit}
+          />
+        </section>
+      )}
     </main>
   );
 
