@@ -1,7 +1,7 @@
 import { auth } from '@/app/auth';
 import ItemsList from '@/app/components/itemList';
 import Pagination from '@/app/components/pagination';
-import { ItemSkeleton } from '@/app/components/skeletons';
+import { ItemListSkeleton, ItemSkeleton } from '@/app/components/skeletons';
 import db from '@/app/lib/prisma'
 import { notFound } from 'next/navigation';
 
@@ -19,7 +19,6 @@ export default async function CategoryPage({ params, searchParams }: {
     return notFound();
   }
 
-  // TODO: add loading skeleton as the elements are loading
   // TODO: allow user specify how much elements he would like to limit currently hard coded
   const limit = 10;
   // TODO: fix that disgusting handling of strings
@@ -69,6 +68,9 @@ export default async function CategoryPage({ params, searchParams }: {
       </h1>
 
       <section>
+        {/* TODO: this page should only use component
+        currently skeleton is shown up only on first load
+        not when moving around */}
         <ItemsList items={itemsWithFavoriteFlag} />
       </section>
 

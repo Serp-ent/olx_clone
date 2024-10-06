@@ -45,3 +45,12 @@ export function HeaderSkeleton({ size = 'large' }: { size?: 'small' | 'medium' |
     <div className={`bg-white rounded w-2/3 ${heightClass} animate-pulse`}></div>
   );
 }
+
+export default function Skeleton({ className }: { className: string }) {
+  return (
+    <div
+      className={`animate-pulse bg-white rounded ${className}`}
+    >
+    </div>
+  );
+}
