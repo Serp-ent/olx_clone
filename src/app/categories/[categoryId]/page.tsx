@@ -1,6 +1,7 @@
 import { auth } from '@/app/auth';
 import ItemsList from '@/app/components/itemList';
 import Pagination from '@/app/components/pagination';
+import { ItemSkeleton } from '@/app/components/skeletons';
 import db from '@/app/lib/prisma'
 import { notFound } from 'next/navigation';
 
@@ -19,7 +20,7 @@ export default async function CategoryPage({ params, searchParams }: {
   }
 
   // TODO: add loading skeleton as the elements are loading
-  // TODO: allow user specify how much elements he would like to limit currently hard code0
+  // TODO: allow user specify how much elements he would like to limit currently hard coded
   const limit = 10;
   // TODO: fix that disgusting handling of strings
   const page = parseInt(searchParams.page || '1') || 1;
