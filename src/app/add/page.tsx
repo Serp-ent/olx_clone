@@ -1,8 +1,6 @@
 import db from '@/app/lib/prisma'
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-import { auth } from '../auth';
 import { createAd } from '../lib/actions';
+import TextAreaNextWrapper from '../components/TextAreaNextWrapper';
 
 const inputs = [
   { name: 'name', type: 'text', },
@@ -15,13 +13,8 @@ const inputs = [
 e.g. cars have price, model, production date hp etc...
 */
 
-// TODO: change appearance
-// TODO: textarea of description should expand and not be scrollable
-// on multiline input
-
 export default async function AddPage() {
   // TODO: add validation using zod
-  // TODO: there is undefined file added when no photo is submitted
 
   const categories = await db.category.findMany();
 
@@ -51,10 +44,10 @@ export default async function AddPage() {
                   className="bg-background p-2 border-emerald-950 border rounded"
                 />
               ) : (
-                <textarea
+                <TextAreaNextWrapper
                   name={input.name}
                   id={input.name}
-                  className="bg-background p-2 border-emerald-950 border rounded"
+                  className="resize-none text-sm bg-background p-2 border-emerald-950 border rounded"
                 />
               )
             }
