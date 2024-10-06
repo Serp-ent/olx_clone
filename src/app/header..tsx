@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { BsSearch, BsBell } from "react-icons/bs";
+import { BsSearch } from "react-icons/bs";
+import NotificationButton from "./components/notificationButton";
 
 // TODO: add dropdown from notification bell
 
@@ -34,12 +34,7 @@ export default function Header() {
         </div>
       </form>
 
-      <button>
-        <BsBell
-          className="grow-0 text-primary"
-          size={22}
-        />
-      </button>
+      <NotificationButton></NotificationButton>
     </header>
   );
 }
