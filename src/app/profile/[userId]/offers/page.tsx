@@ -76,7 +76,6 @@ export default async function OffersOfUser({
       <section className='flex justify-center'>
         <Pagination
           totalPages={totalPages}
-          limit={limit}
         />
       </section>
     </main>

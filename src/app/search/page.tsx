@@ -88,7 +88,6 @@ export default async function SearchPage({
       <section className="flex justify-center">
         <Pagination
           totalPages={totalPages}
-          limit={limit}
         />
       </section>
     </main>

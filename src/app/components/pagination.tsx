@@ -1,14 +1,11 @@
 'use client';
 
-
-// TODO: optimize some parts of it for server
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 
-export default function Pagination({ totalPages, limit }: {
+export default function Pagination({ totalPages }: {
   totalPages: number,
-  limit: number,
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();

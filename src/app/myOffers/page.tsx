@@ -94,7 +94,6 @@ export default async function MyOffers({
         <section className="flex justify-center">
           <Pagination
             totalPages={totalPages}
-            limit={limit}
           />
 
         </section>

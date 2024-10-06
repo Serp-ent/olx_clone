@@ -72,9 +72,7 @@ export default async function CategoryPage({ params, searchParams }: {
       </section>
 
       <section className='flex justify-center'>
-        <Pagination
-          totalPages={totalPages}
-          limit={limit}
+        <Pagination totalPages={totalPages}
         />
       </section>
     </main>

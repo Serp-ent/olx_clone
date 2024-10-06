@@ -77,7 +77,6 @@ export default async function ObservedPage({
         <section className="flex justify-center">
           <Pagination
             totalPages={totalPages}
-            limit={limit}
           />
         </section>
       )}
