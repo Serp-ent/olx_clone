@@ -6,8 +6,6 @@ import { Suspense } from "react";
 import ItemsGridLoading from "./itemsGridLoading";
 
 export default async function Home() {
-  // TODO: improve style
-  // TODO: fetch from db
   // TODO: provide infinite scrolling for newly added items
 
   const categories = await db.category.findMany();
@@ -40,8 +38,6 @@ export default async function Home() {
                     href={`/categories/${category.id}`}
                     className="flex flex-col items-center gap-2"
                   >
-                    {/* TODO: fix hardcoded size */}
-                    {/* TODO: link to categories and its items */}
                     {(category.imageUrl != null) ? (
                       <div className="rounded-full border-secondary border-2 overflow-hidden w-24 h-24 text-3xl grid place-content-center ">
                         <Image

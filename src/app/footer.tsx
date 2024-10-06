@@ -1,9 +1,9 @@
-// TODO: add filled icons for chosen item
 // TODO: this footer should appear only when user scrolls up
 
 'use client';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   BsHouse, BsHouseFill,
   BsHeart, BsHeartFill,
@@ -47,9 +47,35 @@ const cards = [
 
 export default function Footer() {
   const pathname = usePathname();
+  const [showFooter, setShowFooter] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // If the user scrolls down, hide the footer; if they scroll up, show it
+      if (currentScrollY > lastScrollY) {
+        setShowFooter(false); // Scrolling down
+      } else {
+        setShowFooter(true); // Scrolling up
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
+
+  // TODO: if window is not scrollable it should be shown all the time
 
   return (
-    <footer className="py-1 pt-2 px-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1),0_-2px_4px_-1px_rgba(0,0,0,0.06)]">
+    <footer className={`fixed w-screen bg-white bottom-0 py-1 pt-2 px-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1),0_-2px_4px_-1px_rgba(0,0,0,0.06)] transform transition-transform duration-300 ${showFooter ? 'translate-y-0' : 'translate-y-full'}`}>
       <ul className="flex justify-between">
         {cards.map((item, i) =>
           <li
