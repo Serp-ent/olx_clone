@@ -89,6 +89,7 @@ export default async function OfferPage({ params }:
             <EditOfferButton id={item.id} />
             <DeleteOfferButton
               id={item.id}
+              name={item.name}
               redirectLink='/'
             />
           </section>

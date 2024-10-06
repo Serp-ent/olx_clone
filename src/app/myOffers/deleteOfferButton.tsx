@@ -3,12 +3,12 @@
 import { BsTrashFill } from "react-icons/bs";
 import { deleteOffer } from "../lib/actions";
 
-export default function DeleteOfferButton({ id, redirectLink }: { id: number, redirectLink: string | null }) {
-  // TODO: maybe add name which element is being removed
+export default function DeleteOfferButton({ id, redirectLink, name }: { id: number, redirectLink: string | null, name: string | undefined }) {
+  const message = `Are you sure you want to remove ${name ? `item named '${name}'` : 'that item'}`;
   return (
     <button
       onClick={async () => {
-        const response = confirm(`Are you sure you want to remove that item?`);
+        const response = confirm(message);
         if (!response) {
           return;
         }

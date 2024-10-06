@@ -82,6 +82,7 @@ export default async function MyOffers({
                 <EditOfferButton id={item.id} />
                 <DeleteOfferButton
                   id={item.id}
+                  name={item.name}
                   redirectLink={null}
                 />
               </div>
